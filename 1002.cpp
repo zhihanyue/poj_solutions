@@ -1,6 +1,6 @@
 #include <fstream>
 #include <stdio.h>
-#include <stdio.h>
+#include <algorithm>
 #include <cstring>
 #define watch(a,n) for(int i=0;i<(n);++i) cout << a[i] << ' ';cout << endl;
 using namespace std;
