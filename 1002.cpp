@@ -18,7 +18,7 @@ int main()
     cin >> N;
     for(int i=0;i<N;++i)
     {
-        char temp[30],temp2[30]={0};
+        char temp[200],temp2[30]={0};
         cin >> temp;
         int len=0;
         for(int j=0;temp[j]!=0;++j)
