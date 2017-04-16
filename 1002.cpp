@@ -1,19 +1,19 @@
-#include <fstream>
+#include <iostream>
 #include <stdio.h>
 #include <algorithm>
 #include <cstring>
 #define watch(a,n) for(int i=0;i<(n);++i) cout << a[i] << ' ';cout << endl;
 using namespace std;
-ifstream cin("phone.in");
-ofstream cout("phone.out");
+//ifstream cin("phone.in");
+//ofstream cout("phone.out");
 
 long long a[100002];
 int ysb[30]={2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,0,7,7,8,8,8,9,9,9,0};
 
 int main()
 {
-    freopen("phone.in","r",stdin);
-    freopen("phone.out","w",stdout);
+//  freopen("phone.in","r",stdin);
+//  freopen("phone.out","w",stdout);
     int N;
     cin >> N;
     for(int i=0;i<N;++i)
@@ -41,7 +41,6 @@ int main()
             if(k!=1)
             {
                 printf("%03d-%04d %d\n",(int)(start/10000),(int)(start%10000),(int)k);
-                //cout << start/10000 << '-' << start%10000 << ' ' << k << endl;
                 isnull=false;
             }
             start=a[i];
@@ -52,7 +51,6 @@ int main()
     if(k!=1)
     {
         printf("%03d-%04d %d\n",(int)(start/10000),(int)(start%10000),(int)k);
-        //cout << start/10000 << '-' << start%10000 << ' ' << k << endl;
         isnull=false;
     }
     if(isnull)
