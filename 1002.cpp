@@ -8,6 +8,7 @@ using namespace std;
 //ofstream cout("phone.out");
 
 long long a[100002];
+char temp[200];
 int ysb[30]={2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,0,7,7,8,8,8,9,9,9,0};
 
 int main()
@@ -18,7 +19,7 @@ int main()
     cin >> N;
     for(int i=0;i<N;++i)
     {
-        char temp[200],temp2[30]={0};
+        char temp2[30]={0};
         cin >> temp;
         int len=0;
         for(int j=0;temp[j]!=0;++j)
