@@ -18,22 +18,24 @@ int check(double x)
 int main()
 {
     int K;
-    double L=0,R=INT_MIN;
     scanf("%d%d",&N,&K);
     for(int i=1;i<=N;++i)
-    {
         scanf("%lf",&len[i]);
-        if(R<len[i])
-            R=len[i];
-    }
-    R=1000000;
-    while(R-L>0.0001)
+    double L=0,R=1000000;
+    for(int i=1;i<=1000;++i)
     {
         double M=L+(R-L)/2;
         if(check(M)<K)
             R=M;
         else L=M;
     }
+/*  while(R-L>0.0001)
+    {
+        double M=L+(R-L)/2;
+        if(check(M)<K)
+            R=M;
+        else L=M;
+    }*/
     printf("%.2lf",floor(L*100)/100);
     return 0;
 }
