@@ -26,7 +26,7 @@ int main()
         if(R<len[i])
             R=len[i];
     }
-    R+=1;
+    R=1000000;
     while(R-L>0.0001)
     {
         double M=L+(R-L)/2;
