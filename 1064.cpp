@@ -27,7 +27,7 @@ int main()
             R=len[i];
     }
     R+=1;
-    while(R-L>0.001)
+    while(R-L>0.0001)
     {
         double M=L+(R-L)/2;
         if(check(M)<K)
