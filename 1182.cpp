@@ -12,7 +12,7 @@ int main()
 {
     int K,ans=0;
     cin >> N >> K;
-    for(int i=0;i<150008;++i)
+    for(int i=0;i<=3*N;++i)
         p[i]=i;
     for(int i=1;i<=K;++i)
     {
