@@ -1,8 +1,6 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
 int p[150008],N;
-
 int find(int x)
 {
     return p[x]==x?x:(p[x]=find(p[x]));
@@ -10,14 +8,14 @@ int find(int x)
 
 int main()
 {
-    int K,ans=0;
-    cin >> N >> K;
-    for(int i=0;i<=3*N;++i)
+    int K,ans=0,i;
+    scanf("%d%d",&N,&K);
+    for(i=0;i<=3*N;++i)
         p[i]=i;
-    for(int i=1;i<=K;++i)
+    for(i=1;i<=K;++i)
     {
         int D,x,y;
-        cin >> D >> x >> y;
+        scanf("%d%d%d",&D,&x,&y);
         if(x>N || y>N)
             ++ans;
         else if(D==1)
@@ -45,7 +43,7 @@ int main()
             }
         }
     }
-    cout << ans << endl;
+    printf("%d\n",ans);
 //  system("pause");
     return 0;
 }
