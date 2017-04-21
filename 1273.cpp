@@ -50,7 +50,7 @@ int main()
                 fromto(0,m,j) A[i][j]+=A[mline_i][j]*k;
             }
         }
-        printf("%d\n",(int)round(A[0][0]));
+        printf("%d\n",(int)A[0][0]);
     }
     return 0;
 }
