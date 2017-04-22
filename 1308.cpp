@@ -12,12 +12,16 @@ using namespace std;
 #define foreach(v,p,type) for(type::iterator p=(v).begin();p!=(v).end();++p)
 #define MP make_pair
 #define INF INT_MAX
+#define MAXN 200
+
+int fa[MAXN];
+int getroot(int v){return fa[v]==v?v:(fa[v]=getroot(fa[v]));}
+void sinit(){for(int i=0;i<MAXN;++i) fa[i]=i;}
 
 int main() {
     for(int case_num=1;;++case_num) {
         unsigned int cnt=0;
         set<int> S,S_t;
-        S.clear();S_t.clear();//????
         bool OK=true;
         while(true) {
             int a,b; scanf("%d%d",&a,&b);
