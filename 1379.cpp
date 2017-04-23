@@ -9,10 +9,10 @@ using namespace std;
 #define N 1008
 #define CNTP 30
 #define CNTC 30
-#define EPS 1e-8
+#define EPS 1e-5
 #define INF 1e20
 #define MAXDIS 15000
-#define PI 3.1415926
+#define PI 3.1415926535
 struct POINT {
     double x, y, d;
     POINT() {}
