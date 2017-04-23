@@ -34,13 +34,18 @@ Point solve()
     
     double T=MAXDIS;
     while(T>=EPS) {
-        fromto(1,CNTP,i) fromto(1,CNTC,kkk) {
-            double jiao=myrand(0,10*PI);
-            Point newp(Sta[i].first+T*cos(jiao),Sta[i].second+T*sin(jiao));
-            if(newp.first<0 || newp.first>mx || newp.second<0 || newp.second>my) continue;
-            double newval=mindist(newp),delta=newval-D[i];
-            if(delta>0){D[i]=newval;Sta[i]=newp;}
-            //if(delta>0 || myrand(0,1)<=exp(delta/T)){D[i]=newval;Sta[i]=newp;}
+        fromto(1,CNTP,i) {
+            Point bestp;double bestd=0;
+            fromto(1,CNTC,kkk) {
+                double jiao=myrand(0,10*PI);
+                Point newp(Sta[i].first+T*cos(jiao),Sta[i].second+T*sin(jiao));
+                if(newp.first<0 || newp.first>mx || newp.second<0 || newp.second>my) continue;
+                double newval=mindist(newp);
+                if(bestd<newval){bestp=newp;bestd=newval;}
+                //if(delta>0 || myrand(0,1)<=exp(delta/T)){D[i]=newval;Sta[i]=newp;}
+            }
+            double delta=bestd-D[i];
+            if(delta>=0){Sta[i]=bestp;D[i]=bestd;}
         }
         T*=0.8;
     }
