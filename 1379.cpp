@@ -42,10 +42,10 @@ Point solve()
                 if(newp.first<0 || newp.first>mx || newp.second<0 || newp.second>my) continue;
                 double newval=mindist(newp);
                 if(bestd<newval){bestp=newp;bestd=newval;}
-                //if(delta>0 || myrand(0,1)<=exp(delta/T)){D[i]=newval;Sta[i]=newp;}
             }
             double delta=bestd-D[i];
-            if(delta>=0){Sta[i]=bestp;D[i]=bestd;}
+            //if(delta>=0){Sta[i]=bestp;D[i]=bestd;}
+            if(delta>=0 || myrand(0,1)<=exp(delta/T)){Sta[i]=bestp;D[i]=bestd;}
         }
         T*=0.8;
     }
