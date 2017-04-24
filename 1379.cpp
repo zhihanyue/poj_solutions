@@ -45,7 +45,8 @@ Point solve()
             }
             double delta=bestd-D[i];
             //if(delta>=0){Sta[i]=bestp;D[i]=bestd;}
-            if(delta>=0 || myrand(0,1)<=exp(delta/T)){Sta[i]=bestp;D[i]=bestd;}
+            if(delta>=0 || myrand(0,1)<=exp(100*delta/T)){Sta[i]=bestp;D[i]=bestd;}
+            //printf("exp=%lf\n",100*delta/T);
         }
         T*=0.8;
     }
