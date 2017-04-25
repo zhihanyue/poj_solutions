@@ -19,7 +19,7 @@ int main()
     while(true) {
         int n,m;scanf("%d%d",&n,&m);
         if(n==0 && m==0) break;
-        fromto(0,n,i){inL[i]=i;L[i].push_back(i);L_size[i]=1;}
+        fromto(0,n,i){inL[i]=i;L[i].clear();L[i].push_back(i);L_size[i]=1;}
         while(m--) {
             int k;scanf("%d",&k);
             if(k==0) continue;
