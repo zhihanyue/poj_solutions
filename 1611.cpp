@@ -20,8 +20,9 @@ int main()
         int n,m;scanf("%d%d",&n,&m);
         if(n==0 && m==0) break;
         fromto(0,n,i){inL[i]=i;L[i].push_back(i);L_size[i]=1;}
-        fromto(1,m,i) {
+        while(m--) {
             int k;scanf("%d",&k);
+            if(k==0) continue;
             int s;scanf("%d",&s);s=inL[s];
             fromto(2,k,j) {
                 int stu;scanf("%d",&stu);stu=inL[stu];
