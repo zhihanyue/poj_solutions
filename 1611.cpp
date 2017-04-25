@@ -11,14 +11,14 @@ using namespace std;
 #define foreach(v,p,type) for(type::iterator p=(v).begin();p!=(v).end();++p)
 #define INF INT_MAX
 #define MAXN 30008
-list<int> L[MAXN];
+vector<int> L[MAXN];
 int L_size[MAXN];
 int inL[MAXN];
 void merge(int L1,int L2) {
     if(L1==L2) return;
     if(L_size[L1]>L_size[L2]) swap(L1,L2);
-    foreach(L[L1],p,list<int>) inL[*p]=L2;
-    L[L2].splice(L[L2].end(),L[L1]);
+    foreach(L[L1],p,vector<int>) inL[*p]=L2;
+    L[L2].insert(L[L2].end(),L[L1].begin(),L[L1].end());
     L_size[L2]+=L_size[L1];L_size[L1]=0;
 }
 int main()
