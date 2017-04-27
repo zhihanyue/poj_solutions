@@ -18,7 +18,7 @@ void merge(int L1,int L2) {
     //if(L[L1].size()>L[L2].size()) swap(L1,L2);
     foreach(L[L1],p,vector<int>) inL[*p]=L2;
     L[L2].insert(L[L2].end(),L[L1].begin(),L[L1].end());
-    L[L1]=vector<int>();
+    vector<int>().swap(L[L1]);
 }
 int main()
 {
