@@ -28,7 +28,7 @@ double solve(int n)
         S.x+=(P[maxi].x-S.x)/dis*delta;
         S.y+=(P[maxi].y-S.y)/dis*delta;
         S.z+=(P[maxi].z-S.z)/dis*delta;
-        delta*=0.99;
+        delta*=0.999;
     }
     return ans;
 }
