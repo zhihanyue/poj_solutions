@@ -19,9 +19,9 @@ bool solve()
         memcpy(result,jz,sizeof(jz));
         for(int w=k,i=1;i<=N;w>>=1,++i)
         {
-            a[1][N-i+1]=w&1;
-            if(a[1][N-i+1])
-                qufan(1,N-i+1);
+            a[1][i]=w&1;
+            if(a[1][i])
+                qufan(1,i);
         }
         for(int i=2;i<=M;++i)
             for(int j=1;j<=N;++j)
