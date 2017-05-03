@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
-#define fromdownto(from,to,i) for(int (i)=(from);(i)>=(to);--(i))
 using namespace std;
 
 vector<int> G[10008],rG[10008];
@@ -33,7 +32,7 @@ int main()
 {
     int N,M;
     scanf("%d%d",&N,&M);
-    fromto(1,N,i) {
+    fromto(1,M,i) {
         int u,v;
         scanf("%d%d",&u,&v);
         G[u].push_back(v);
@@ -52,7 +51,6 @@ int main()
     memset(vis,false,sizeof(vis));
     T_len=0;
     dfs(T[0]);
-    
     int res=0;
     if(T_len==N) fromto(1,N,i)
         if(SCC[i]==k-1) ++res;
