@@ -17,7 +17,17 @@ void dfs(int u)
         if(!vis[v]) dfs(v);
     }
     T[T_len++]=u;
-}   
+}
+
+void rdfs2(int u)
+{
+    vis[u]=true;
+    for(int i=0,size=rG[u].size();i<size;++i) {
+        int v=rG[u][i];
+        if(!vis[v]) rdfs2(v);
+    }
+    T[T_len++]=u;
+}
 
 void rdfs(int u,int k)
 {
@@ -49,8 +59,10 @@ int main()
         if(SCC[T[i]]==-1) rdfs(T[i],k++);
     
     memset(vis,false,sizeof(vis));
+    int temp=T[T_len-1];
     T_len=0;
-    dfs(T[0]);
+    rdfs2(temp);
+    printf("%d\n",T_len);
     int res=0;
     if(T_len==N) fromto(1,N,i)
         if(SCC[i]==k-1) ++res;
