@@ -1,3 +1,8 @@
+/*
+kosaraju
+Memory 1036K
+Time    63MS
+*/
 #include <iostream>
 using namespace std;
 #define MAXM 50010
@@ -71,7 +76,7 @@ void output(){
 
 int main(){
     int i,a,b;
-    scanf("%d%d",&n,&m));
+    scanf("%d%d",&n,&m);
         memset(headlist,-1,sizeof(headlist));
         memset(headlist2,-1,sizeof(headlist2));
         for(i=0;i<m;i++){
