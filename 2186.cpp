@@ -4,10 +4,10 @@
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 using namespace std;
 
-vector<int> G[10008],rG[10008];
-int T[10008],T_len;
-int SCC[10008];
-bool vis[10008];
+vector<int> G[40008],rG[40008];
+int T[40008],T_len;
+int SCC[40008];
+bool vis[40008];
 
 void dfs(int u)
 {
@@ -16,7 +16,7 @@ void dfs(int u)
         int v=G[u][i];
         if(!vis[v]) dfs(v);
     }
-    T[T_len++]=u;
+    T[++T_len]=u;
 }
 
 void rdfs2(int u)
@@ -26,7 +26,7 @@ void rdfs2(int u)
         int v=rG[u][i];
         if(!vis[v]) rdfs2(v);
     }
-    T[T_len++]=u;
+    T[++T_len]=u;
 }
 
 void rdfs(int u,int k)
@@ -51,20 +51,20 @@ int main()
     memset(vis,false,sizeof(vis));
     T_len=0;
     fromto(1,N,i) if(!vis[i]) dfs(i);
-    reverse(T,T+T_len);
+    reverse(T+1,T+T_len+1);
     
     memset(SCC,-1,sizeof(SCC));
     int k=0;
-    fromto(0,T_len-1,i)
-        if(SCC[T[i]]==-1) rdfs(T[i],k++);
+    fromto(1,T_len,i)
+        if(SCC[T[i]]==-1) rdfs(T[i],++k);
     
     memset(vis,false,sizeof(vis));
-    int temp=T[T_len-1];
+    int temp=T[T_len];
     T_len=0;
     rdfs2(temp);
     int res=0;
     if(T_len==N) fromto(1,N,i)
-        if(SCC[i]==k-1) ++res;
+        if(SCC[i]==k) ++res;
     printf("%d\n",res);
     return 0;
 }
