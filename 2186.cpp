@@ -62,7 +62,6 @@ int main()
     int temp=T[T_len-1];
     T_len=0;
     rdfs2(temp);
-    printf("%d\n",T_len);
     int res=0;
     if(T_len==N) fromto(1,N,i)
         if(SCC[i]==k-1) ++res;
