@@ -49,11 +49,11 @@ int main()
     fromto(1,T_len,i)
         if(!vis[T[i]]) rdfs(T[i],++k);
     
-    int res=0;
-    fromto(1,N,i) if(SCC[i]==k) ++res;
+    int res=0,from=0;
+    fromto(1,N,i) if(SCC[i]==k) {from=i;++res;}
     
     memset(vis,false,sizeof(vis));
-    rdfs(T[T_len],0);
+    rdfs(from,0);
     fromto(1,N,i) if(!vis[i]) {
         printf("0\n");
         return 0;
