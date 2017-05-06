@@ -4,10 +4,10 @@
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 using namespace std;
 
-vector<int> G[40008],rG[40008];
-int T[40008],T_len;
-int SCC[40008];
-bool vis[40008];
+vector<int> G[10008],rG[10008];
+int T[10008],T_len;
+int SCC[10008];
+bool vis[10008];
 
 void dfs(int u)
 {
@@ -17,36 +17,23 @@ void dfs(int u)
         if(!vis[v]) dfs(v);
     }
     T[++T_len]=u;
-}
-
-void rdfs2(int u)
-{
-    vis[u]=true;
-    for(int i=0,size=rG[u].size();i<size;++i) {
-        int v=rG[u][i];
-        if(!vis[v]) rdfs2(v);
-    }
-    T[++T_len]=u;
-}
+}   
 
 void rdfs(int u,int k)
 {
+    vis[u]=true;
     SCC[u]=k;
     for(int i=0,size=rG[u].size();i<size;++i) {
         int v=rG[u][i];
-        if(SCC[v]==-1) rdfs(v,k);
+        if(!vis[v]) rdfs(v,k);
     }
 }       
 
 int main()
 {
     int N,M;
-    while(scanf("%d%d",&N,&M)==2) {
+    scanf("%d%d",&N,&M);
     fromto(1,N,i) {
-        G[i].clear();
-        rG[i].clear();
-    }
-    fromto(1,M,i) {
         int u,v;
         scanf("%d%d",&u,&v);
         G[u].push_back(v);
@@ -57,19 +44,20 @@ int main()
     fromto(1,N,i) if(!vis[i]) dfs(i);
     reverse(T+1,T+T_len+1);
     
-    memset(SCC,-1,sizeof(SCC));
+    memset(vis,false,sizeof(vis));
     int k=0;
     fromto(1,T_len,i)
-        if(SCC[T[i]]==-1) rdfs(T[i],++k);
+        if(!vis[T[i]]) rdfs(T[i],++k);
+    
+    int res=0;
+    fromto(1,N,i) if(SCC[i]==k) ++res;
     
     memset(vis,false,sizeof(vis));
-    int temp=T[T_len];
-    T_len=0;
-    rdfs2(temp);
-    int res=0;
-    if(T_len==N) fromto(1,N,i)
-        if(SCC[i]==k) ++res;
-    printf("%d\n",res);
+    rdfs(T[T_len],0);
+    fromto(1,N,i) if(!vis[i]) {
+        printf("0\n");
+        return 0;
     }
+    printf("%d\n",res);
     return 0;
 }
