@@ -35,7 +35,7 @@ int main()
 {
     int N,M;
     scanf("%d%d",&N,&M);
-    fromto(1,N,i) {
+    fromto(1,M,i) {
         int u,v;
         scanf("%d%d",&u,&v);
         G[u].push_back(v);
