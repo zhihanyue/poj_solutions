@@ -2,28 +2,30 @@
 #include <vector>
 #include <algorithm>
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
+#define fromgoto(from,to,i) for(int (i)=(from),__size=(to);(i)<=(__size);++(i))
+
 using namespace std;
 
 vector<int> G[10008],rG[10008];
-int T[10008],T_len;
+vector<int> T;
 int SCC[10008];
 bool vis[10008];
 
 void dfs(int u)
 {
     vis[u]=true;
-    for(int i=0,size=G[u].size();i<size;++i) {
+    fromgoto(0,G[u].size()-1,i) {
         int v=G[u][i];
         if(!vis[v]) dfs(v);
     }
-    T[++T_len]=u;
+    T.push_back(u);
 }   
 
 void rdfs(int u,int k)
 {
     vis[u]=true;
     SCC[u]=k;
-    for(int i=0,size=rG[u].size();i<size;++i) {
+    fromgoto(0,rG[u].size()-1,i) {
         int v=rG[u][i];
         if(!vis[v]) rdfs(v,k);
     }
@@ -39,25 +41,24 @@ int main()
         G[u].push_back(v);
         rG[v].push_back(u);
     }
+    
+    //solve
     memset(vis,false,sizeof(vis));
-    T_len=0;
     fromto(1,N,i) if(!vis[i]) dfs(i);
-    reverse(T+1,T+T_len+1);
+    reverse(T.begin(),T.end());
     
     memset(vis,false,sizeof(vis));
     int k=0;
-    fromto(1,T_len,i)
+    fromgoto(0,T.size()-1,i)
         if(!vis[T[i]]) rdfs(T[i],++k);
     
+    //print
     int res=0,from=0;
     fromto(1,N,i) if(SCC[i]==k) {from=i;++res;}
     
     memset(vis,false,sizeof(vis));
     rdfs(from,0);
-    fromto(1,N,i) if(!vis[i]) {
-        printf("0\n");
-        return 0;
-    }
+    fromto(1,N,i) if(!vis[i]) { res=0; break; }
     printf("%d\n",res);
     return 0;
 }
