@@ -20,9 +20,9 @@ struct uset {
     inline bool g(bool x,bool y){return x==y;}
     int root(int v) {
         if(fa[v]!=v) {
-            int u=root(fa[v]);
-            same[v]=g(same[v],same[u]);
-            fa[v]=u;
+            int t=root(fa[v]);
+            same[v]=g(same[v],same[fa[v]]);
+            fa[v]=t;
         }
         return fa[v];
     }
