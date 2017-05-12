@@ -11,11 +11,13 @@ struct Node
     double x,y;
     Node operator+(Node ano)const
     {
-        return (Node){x+ano.x,y+ano.y};
+        Node res={x+ano.x,y+ano.y};
+        return res;
     }
     Node rotate(double a)
     {
-        return (Node){cos(a)*x+sin(a)*y,-sin(a)*x+cos(a)*y};
+        Node res={cos(a)*x+sin(a)*y,-sin(a)*x+cos(a)*y};
+        return res;
         //return (Node){cos(a)*x-sin(a)*y,sin(a)*x+cos(a)*y};
     }
 } vec[20008];
@@ -24,7 +26,10 @@ double add[20008],prv[10008];
 void init(int o,int L,int r)
 {
     if(L+1==r)
-        vec[o]=(Node){0,a[L]};
+    {
+        vec[o].x=0;
+        vec[o].y=a[L];
+    }
     else
     {
         int M=L+(r-L)/2;
