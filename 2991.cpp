@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <cstring>
 #include <cmath>
 #include <algorithm>
 #define PI 3.1415926535
