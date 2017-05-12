@@ -5,7 +5,7 @@
 #define PI 3.1415926535
 using namespace std;
 
-int a[100008];
+int a[10008];
 struct Node
 {
     double x,y;
@@ -20,8 +20,8 @@ struct Node
         return res;
         //return (Node){cos(a)*x-sin(a)*y,sin(a)*x+cos(a)*y};
     }
-} vec[200008];
-double add[200008],prv[100008];
+} vec[40008];
+double add[40008],prv[10008];
 
 void init(int o,int L,int r)
 {
