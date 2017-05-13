@@ -64,7 +64,7 @@ void update(int o,int L,int r)
 int main()
 {
     int n,c;
-    while(scanf("%d%d",&n,&c))
+    while(scanf("%d%d",&n,&c)!=EOF)
     {
         for(int i=1;i<=n;++i)
             scanf("%d",&a[i]);
