@@ -25,6 +25,7 @@ double add[40008],prv[10008];
 
 void init(int o,int L,int r)
 {
+    add[o]=0;
     if(L+1==r)
     {
         vec[o].x=0;
@@ -67,7 +68,6 @@ int main()
     {
         for(int i=1;i<=n;++i)
             scanf("%d",&a[i]);
-        memset(add,0,sizeof(add));
         fill(prv+1,prv+n,PI);
         init(1,1,n+1);
         for(int i=1;i<=c;++i)
