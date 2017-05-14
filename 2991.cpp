@@ -9,7 +9,7 @@ int a[10008];
 struct Node
 {
     double x,y;
-    Node operator+(Node ano)const
+    Node operator+(Node ano) const
     {
         Node res={x+ano.x,y+ano.y};
         return res;
@@ -55,10 +55,8 @@ void update(int o,int L,int r)
         int M=L+(r-L)/2;
         update(o*2,L,M);
         update(o*2+1,M,r);
-        //printf("(%.2lf %.2lf) %.2lf (%.2lf %.2lf)\n",vec[o*2+1].x,vec[o*2+1].y,add[o*2+1],vec[o*2+1].rotate(add[o*2+1]).x,vec[o*2+1].rotate(add[o*2+1]).y);
         vec[o]=vec[o*2].rotate(add[o*2])+vec[o*2+1].rotate(add[o*2+1]);
     }
-        //printf("vec:%d[%d,%d) %lf %lf\n",o,L,r,vec[o].x,vec[o].y);
 }
 
 int main()
