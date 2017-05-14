@@ -16,7 +16,7 @@ struct Node
     }
     Node rotate(double a)
     {
-        Node res={cos(a)*x+sin(a)*y,-sin(a)*x+cos(a)*y};
+        Node res={cos(a)*x+sin(a)*y,-sin(a)*x+cos(a)*y};    
         return res;
         //return (Node){cos(a)*x-sin(a)*y,sin(a)*x+cos(a)*y};
     }
@@ -25,7 +25,7 @@ double add[40008],prv[10008];
 
 void init(int o,int L,int r)
 {
-    add[o]=0;
+    add[o]=0;   
     if(L+1==r)
     {
         vec[o].x=0;
@@ -47,15 +47,20 @@ void update(int o,int L,int r)
     if(r<=up_L || L>=up_r)
         return;
     else if(up_L<=L && r<=up_r)
+    {
         add[o]+=delta;
-    else if(L+1==r)
-        return;
+        if(L+1<r)
+            vec[o]=vec[o*2]+vec[o*2+1];
+        vec[o]=vec[o].rotate(add[o]);
+        if(L+1==r)
+            add[o]=0;
+    }
     else
     {
         int M=L+(r-L)/2;
         update(o*2,L,M);
         update(o*2+1,M,r);
-        vec[o]=vec[o*2].rotate(add[o*2])+vec[o*2+1].rotate(add[o*2+1]);
+        vec[o]=(vec[o*2]+vec[o*2+1]).rotate(add[o]);
     }
 }
 
