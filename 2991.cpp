@@ -40,28 +40,35 @@ void init(int o,int L,int r)
     }
 }
 
+void pushdown(int o,int L,int r)
+{
+    if(L+1<r)
+    {
+        add[o*2]+=add[o];//+=
+        vec[o*2]=vec[o*2].rotate(add[o]);
+        add[o*2+1]+=add[o];
+        vec[o*2+1]=vec[o*2+1].rotate(add[o]);
+    }
+    add[o]=0;//attention!!!
+}
+
 int up_L,up_r;
 double delta;
 void update(int o,int L,int r)
 {
     if(r<=up_L || L>=up_r)
         return;
-    else if(up_L<=L && r<=up_r)
+    if(up_L<=L && r<=up_r)
     {
         add[o]+=delta;
-        if(L+1<r)
-            vec[o]=vec[o*2]+vec[o*2+1];
-        vec[o]=vec[o].rotate(add[o]);
-        if(L+1==r)
-            add[o]=0;
+        vec[o]=vec[o].rotate(delta);
+        return;
     }
-    else
-    {
-        int M=L+(r-L)/2;
-        update(o*2,L,M);
-        update(o*2+1,M,r);
-        vec[o]=(vec[o*2]+vec[o*2+1]).rotate(add[o]);
-    }
+    pushdown(o,L,r);    
+    int M=L+(r-L)/2;
+    update(o*2,L,M);
+    update(o*2+1,M,r);
+    vec[o]=vec[o*2]+vec[o*2+1];
 }
 
 int main()
