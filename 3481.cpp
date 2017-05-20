@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include <set>
 using namespace std;
 
@@ -17,13 +17,13 @@ int main()
     while(true)
     {
         int N;
-        cin >> N;
+        scanf("%d",&N);
         if(N==0)
             break;
         else if(N==1)
         {
             int K,P;
-            cin >> K >> P;
+            scanf("%d%d",&K,&P);
             myset.insert((Node){K,P});
         }
         else if(N==2)
@@ -32,20 +32,20 @@ int main()
             {
                 set<Node>::iterator it=myset.end();
                 --it;
-                cout << (it->K) << endl;
+                printf("%d\n",it->K);
                 myset.erase(it);
             }
-            else cout << 0 << endl;
+            else printf("0\n");
         }
         else if(N==3)
         {
             if(myset.size()!=0)
             {
                 set<Node>::iterator it=myset.begin();
-                cout << (it->K) << endl;
+                printf("%d\n",it->K);
                 myset.erase(it);
             }
-            else cout << 0 << endl;
+            else printf("0\n");
         }
     }
     return 0;
