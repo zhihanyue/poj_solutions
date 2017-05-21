@@ -34,8 +34,7 @@ struct Node
     {
         return x==val?-1:(x>val);
     }
-};
-Node *root=0;
+} *root=0;
 
 void rotate(Node *&o,bool w)
 {
@@ -92,21 +91,11 @@ void remove(Node *&o,T_val v)
     }
 }
 
-Node* find(Node *o,T_val v)
-{
-    if(o==0)
-        return 0;
-    int w=o->cmp(v);
-    if(w==-1)
-        return o;
-    else return find(o->c[w],v);
-}
-
-Node* t_m(Node *o,int w)
+T_val t_m(Node *o,int w)
 {
     while(o->c[w])
         o=o->c[w];
-    return o;
+    return o->val;
 }
 
 int main()
@@ -138,7 +127,7 @@ int main()
                 printf("0\n");
             else
             {
-                T_val m=t_m(root,1)->val;
+                T_val m=t_m(root,1);
                 printf("%d\n",m.K);
                 remove(root,m);
             }
@@ -149,7 +138,7 @@ int main()
                 printf("0\n");
             else
             {
-                T_val m=t_m(root,0)->val;
+                T_val m=t_m(root,0);
                 printf("%d\n",m.K);
                 remove(root,m);
             }
