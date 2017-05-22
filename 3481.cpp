@@ -108,7 +108,7 @@ int main()
     remove(root,46853);
     printf("%d\n",t_m(root,1)->val);
     system("pause");*/
-    srand(time(0));
+    //srand(time(0));
     while(true)
     {
         int N;
