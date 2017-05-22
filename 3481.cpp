@@ -117,9 +117,9 @@ int main()
             break;
         else if(N==1)
         {
-            int K,P;
-            scanf("%d%d",&K,&P);
-            insert(root,(T_val){K,P});
+            T_val T;
+            scanf("%d%d",&T.K,&T.P);
+            insert(root,T);
         }
         else if(N==2)
         {
