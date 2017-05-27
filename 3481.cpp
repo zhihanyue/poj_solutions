@@ -21,8 +21,7 @@ struct Node
 {
     Node *c[2];
     T_val val;
-    int pri;
-    int cnt;
+    int pri,cnt;
     Node(T_val v)
     {
         c[0]=c[1]=0;
@@ -47,18 +46,18 @@ void rotate(Node *&o,bool w)
 void insert(Node *&o,T_val v)
 {
     if(o==0)
+    {
         o=new Node(v);
+        return;
+    }
+    int w=o->cmp(v);
+    if(w==-1)
+        ++o->cnt;
     else
     {
-        int w=o->cmp(v);
-        if(w==-1)
-            ++o->cnt;
-        else
-        {
-            insert(o->c[w],v);
-            if(o->pri < o->c[w]->pri)
-                rotate(o,!w);
-        }
+        insert(o->c[w],v);
+        if(o->pri < o->c[w]->pri)
+            rotate(o,!w);
     }
 }
 
@@ -71,15 +70,9 @@ void remove(Node *&o,T_val v)
         return remove(o->c[w],v);
     if(o->cnt>1)
         --o->cnt;
-    else if(o->c[0]==0)
+    else if(o->c[0]==0 || o->c[1]==0)
     {
-        Node *k=o->c[1];
-        delete o;
-        o=k;
-    }
-    else if(o->c[1]==0)
-    {
-        Node *k=o->c[0];
+        Node *k=o->c[o->c[0]==0];
         delete o;
         o=k;
     }
@@ -100,15 +93,7 @@ T_val t_m(Node *o,int w)
 
 int main()
 {
-/*  insert(root,453);
-    insert(root,78);
-    insert(root,521);
-    insert(root,46853);
-    printf("%d\n",t_m(root,1)->val);
-    remove(root,46853);
-    printf("%d\n",t_m(root,1)->val);
-    system("pause");*/
-    //srand(time(0));
+    srand(time(0));
     while(true)
     {
         int N;
