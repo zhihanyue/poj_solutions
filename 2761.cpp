@@ -1,78 +1,98 @@
 #include <cstdio>
-#include <vector>
+#include <cstdlib>
 #include <algorithm>
-#define N_MAX 100008
 using namespace std;
-int A[N_MAX],n;
-int num[N_MAX];
-vector<int> xdtree[N_MAX*4];
+int sA[100008];
+int xdtree[50][100008],left[50][100008];//[d][L]~[d][r-1]
 
-void init(int o,int L,int r)
+void build(int L,int r,int d)
 {
     if(L+1==r)
-    {
-        xdtree[o].push_back(A[L]);
         return;
+    int M=L+(r-L)/2,x=sA[M];
+    int lm=sA+M-lower_bound(sA+L,sA+M,x);//!!!!!!!!!!!!!!!!!
+    int newLeft=L,newRight=M;
+    for(int i=L;i<r;++i)
+    {
+        if(xdtree[d][i]<x)
+            xdtree[d+1][newLeft++]=xdtree[d][i];
+        else if(xdtree[d][i]>x)
+            xdtree[d+1][newRight++]=xdtree[d][i];
+        else if(lm!=0)
+        {
+            xdtree[d+1][newLeft++]=xdtree[d][i];
+            --lm;
+        }
+        else xdtree[d+1][newRight++]=xdtree[d][i];
+        left[d][i]=newLeft-L;
     }
-    int M=L+(r-L)/2;
-    init(o*2,L,M);
-    init(o*2+1,M,r);
-    xdtree[o].resize(xdtree[o*2].size()+xdtree[o*2+1].size());//!!!
-    merge(xdtree[o*2].begin(),xdtree[o*2].end(),xdtree[o*2+1].begin(),xdtree[o*2+1].end(),xdtree[o].begin());
+    build(L,M,d+1);
+    build(M,r,d+1);
 }
 
-int qu_low,qu_upp,qu_L,qu_r,qu_x;
-void query(int o,int L,int r)
+int qu_L,qu_r,qu_k,qu_ans;
+void query(int L,int r,int d)
 {
-    if(r<=qu_L || L>=qu_r)
-        return;
-    if(qu_L<=L && r<=qu_r)
+    //printf("query: %d %d %d\n",qu_L,qu_r,qu_k);
+    if(qu_L+1==qu_r)
     {
-        pair<vector<int>::iterator,vector<int>::iterator > tmp=equal_range(xdtree[o].begin(),xdtree[o].end(),qu_x);
-        qu_low+=tmp.first-xdtree[o].begin();
-        qu_upp+=tmp.second-xdtree[o].begin();
+        qu_ans=xdtree[d][qu_L];
         return;
     }
     int M=L+(r-L)/2;
-    query(o*2,L,M);
-    query(o*2+1,M,r);
+    int len_l=(L==qu_L)?0:left[d][qu_L-1];//!!!!!!!!!!!!!!!
+    int len_r=left[d][qu_r-1];
+    if(len_r-len_l>=qu_k)
+    {
+        qu_L=L+len_l;
+        qu_r=L+len_r;
+        query(L,M,d+1);
+    }
+    else
+    {
+        qu_L=M+qu_L-L-len_l;
+        qu_r=M+qu_r-L-len_r;
+        qu_k-=len_r-len_l;
+        query(M,r,d+1);
+    }
 }
 
 int main()
 {
-    int q_M;
-    scanf("%d%d",&n,&q_M);
+    int n,m;
+    scanf("%d%d",&n,&m);
     for(int i=1;i<=n;++i)
     {
-        scanf("%d",&A[i]);
-        num[i]=A[i];
+        scanf("%d",&xdtree[0][i]);
+        sA[i]=xdtree[0][i];
     }
-    sort(num+1,num+n+1);
-    init(1,1,n+1);
-    while(q_M--)
+    sort(sA+1,sA+n+1);
+    build(1,n+1,0);
+/*  printf("\n");
+    for(int i=0;i<=8;++i)
+    {
+        for(int j=1;j<=n;++j)
+            printf("%d ",xdtree[i][j]);
+        printf("\n");
+    }
+    printf("\n");
+    for(int i=0;i<=8;++i)
+    {
+        for(int j=1;j<=n;++j)
+            printf("%d ",left[i][j]);
+        printf("\n");
+    }
+    printf("\n");*/
+    while(m--)
     {
         int L,R,k;
         scanf("%d%d%d",&L,&R,&k);
-        int bL=1,bR=n+1;
-        while(bL<bR)
-        {
-            int bM=bL+(bR-bL)/2;
-            qu_low=1;
-            qu_upp=1;
-            qu_L=L;
-            qu_r=R+1;
-            qu_x=num[bM];
-            query(1,1,n+1);
-            if(k>=qu_low && k<qu_upp)
-            {
-                bL=bM;
-                break;
-            }
-            else if(qu_low>k)
-                bR=bM-1;
-            else bL=bM+1;
-        }
-        printf("%d\n",num[bL]);
+        qu_L=L;
+        qu_r=R+1;
+        qu_k=k;
+        qu_ans=0;
+        query(1,n+1,0);
+        printf("%d\n",qu_ans);
     }
     return 0;
 }
