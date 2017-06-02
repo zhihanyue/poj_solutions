@@ -28,8 +28,9 @@ void query(int o,int L,int r)
         return;
     if(qu_L<=L && r<=qu_r)
     {
-        qu_low+=lower_bound(xdtree[o].begin(),xdtree[o].end(),qu_x)-xdtree[o].begin();
-        qu_upp+=upper_bound(xdtree[o].begin(),xdtree[o].end(),qu_x)-xdtree[o].begin();
+        pair<vector<int>::iterator,vector<int>::iterator > tmp=equal_range(xdtree[o].begin(),xdtree[o].end(),qu_x);
+        qu_low+=tmp.first-xdtree[o].begin();
+        qu_upp+=tmp.second-xdtree[o].begin();
         return;
     }
     int M=L+(r-L)/2;
