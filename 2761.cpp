@@ -1,9 +1,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <algorithm>
+#define MAXN 100008
 using namespace std;
 int sA[100008];
-int xdtree[50][100008],left[50][100008];//[d][L]~[d][r-1]
+int xdtree[50][MAXN],left[50][MAXN];//[d][L]~[d][r-1]
 
 void build(int L,int r,int d)
 {
@@ -33,7 +34,6 @@ void build(int L,int r,int d)
 int qu_L,qu_r,qu_k,qu_ans;
 void query(int L,int r,int d)
 {
-    //printf("query: %d %d %d\n",qu_L,qu_r,qu_k);
     if(qu_L+1==qu_r)
     {
         qu_ans=xdtree[d][qu_L];
@@ -50,8 +50,8 @@ void query(int L,int r,int d)
     }
     else
     {
-        qu_L=M+qu_L-L-len_l;
-        qu_r=M+qu_r-L-len_r;
+        qu_L+=M-(L+len_l);//这样比较好记……1.+= 2.M- 
+        qu_r+=M-(L+len_r);
         qu_k-=len_r-len_l;
         query(M,r,d+1);
     }
@@ -68,21 +68,6 @@ int main()
     }
     sort(sA+1,sA+n+1);
     build(1,n+1,0);
-/*  printf("\n");
-    for(int i=0;i<=8;++i)
-    {
-        for(int j=1;j<=n;++j)
-            printf("%d ",xdtree[i][j]);
-        printf("\n");
-    }
-    printf("\n");
-    for(int i=0;i<=8;++i)
-    {
-        for(int j=1;j<=n;++j)
-            printf("%d ",left[i][j]);
-        printf("\n");
-    }
-    printf("\n");*/
     while(m--)
     {
         int L,R,k;
