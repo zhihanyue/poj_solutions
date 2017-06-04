@@ -13,7 +13,7 @@ int main()
         if(n%2!=0) a[n++]=0;
         sort(a,a+n);
         int x=0;
-        for(int i=1;i<n;++i) x^=a[i]-a[i-1]-1;
+        for(int i=1;i<n;i+=2) x^=a[i]-a[i-1]-1;
         printf(x?"Georgia will win\n":"Bob will win\n");
     }
     return 0;
