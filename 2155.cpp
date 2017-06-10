@@ -61,6 +61,9 @@ int main()
                 printf("%d\n",BIT1.sum(x,y)%2);
             }
         }
+        printf("\n");
     }
+    
+    system("pause");
     return 0;
 }
