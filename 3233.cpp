@@ -3,7 +3,7 @@
 #include <cstdlib>
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 using namespace std;
-int n;
+int n,M;
 int A[3][3][31][31],B[3][3][31][31],temp[3][3][31][31];
 
 void Apower(unsigned int __n)
@@ -14,13 +14,13 @@ void Apower(unsigned int __n)
     while (__n >>= 1) {
         memset(temp,0,sizeof(temp));
         fromto(1,2,i) fromto(1,2,j) fromto(1,2,k) fromto(1,n,x) fromto(1,n,y) fromto(1,n,z)
-            temp[i][j][x][y]+=A[i][k][x][z]*A[k][j][z][y];
+            temp[i][j][x][y]=(temp[i][j][x][y]+A[i][k][x][z]*A[k][j][z][y])%M;
         //A*=A;
         memcpy(A,temp,sizeof(temp));
         if (__n % 2) {
             memset(temp,0,sizeof(temp));
             fromto(1,2,i) fromto(1,2,j) fromto(1,2,k) fromto(1,n,x) fromto(1,n,y) fromto(1,n,z)
-                temp[i][j][x][y]+=A[i][k][x][z]*B[k][j][z][y];
+                temp[i][j][x][y]=(temp[i][j][x][y]+A[i][k][x][z]*B[k][j][z][y])%M;
             //B*=A;
             memcpy(B,temp,sizeof(temp));
         }
@@ -29,7 +29,7 @@ void Apower(unsigned int __n)
 
 int main()
 {
-    int k,M;
+    int k;
     scanf("%d%d%d",&n,&k,&M);
     fromto(1,n,i) fromto(1,n,j) {
         scanf("%d",&A[1][1][i][j]);
