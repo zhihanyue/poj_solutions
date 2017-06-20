@@ -4,12 +4,12 @@
 #include <algorithm>
 #include <cstdlib>
 using namespace std;
-#define MAXN 10008
+#define MAXN 20008
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 typedef pair<int,int> sta;
 char A[2*MAXN],A_len,B[MAXN],fA_len;
 
-int sa[MAXN],rank[2*2*MAXN],sa_k;
+int sa[MAXN],rank[2*MAXN],sa_k;
 
 bool cmp(int x,int y)
 {
@@ -21,7 +21,7 @@ void getsa(char *a,int n)//->sa,rank
     fromto(1,n,i) {sa[i]=i;rank[i]=a[i];}
     for(sa_k=1;sa_k<=n;sa_k*=2) {
         sort(sa+1,sa+n+1,cmp);
-        static int newrank[2*2*MAXN];
+        static int newrank[2*MAXN];
         newrank[sa[1]]=1;
         fromto(2,n,i) newrank[sa[i]]=newrank[sa[i-1]]+cmp(sa[i-1],sa[i]);
         fromto(1,n,i) rank[i]=newrank[i];
@@ -45,7 +45,7 @@ void getlcp(char *a,int n)//sa,rank->lcp
 int main()
 {
     int casecnt;
-    scanf("%d\n",&casecnt);
+    scanf("%d",&casecnt);getchar();
     while(casecnt--) {
         gets(A+1);gets(B+1);
         fA_len=strlen(A+1);
