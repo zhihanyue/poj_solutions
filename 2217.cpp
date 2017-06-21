@@ -4,8 +4,9 @@
 #include <algorithm>
 #include <cstdlib>
 using namespace std;
-#define MAXN 20008
+#define MAXN 500008
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
+#define watch(a,size) for(int __i=0;__i<(size);++__i) printf("[%d]=%d ",__i,(a)[__i]);printf("\n");
 typedef pair<int,int> sta;
 char A[2*MAXN],A_len,B[MAXN],fA_len;
 
@@ -45,7 +46,7 @@ void getlcp(char *a,int n)//sa,rank->lcp
 int main()
 {
     int casecnt;
-    scanf("%d",&casecnt);getchar();
+    scanf("%d\n",&casecnt);
     while(casecnt--) {
         gets(A+1);gets(B+1);
         fA_len=strlen(A+1);
@@ -53,7 +54,9 @@ int main()
         strcat(A+1,B);
         A_len=strlen(A+1);
         getsa(A,A_len);
+        watch(sa,A_len+1);
         getlcp(A,A_len);
+        watch(lcp,A_len+1);
         int ans=0;
         fromto(2,A_len,i) if((sa[i]<=fA_len)!=(sa[i-1]<=fA_len)) ans=max(ans,lcp[i]);
         printf("Nejdelsi spolecny retezec ma delku %d.\n",ans);
