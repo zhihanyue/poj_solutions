@@ -54,9 +54,9 @@ int main()
         strcat(A+1,B);
         A_len=strlen(A+1);
         getsa(A,A_len);
-        watch(sa,A_len+1);
+        //watch(sa,A_len+1);
         getlcp(A,A_len);
-        watch(lcp,A_len+1);
+        //watch(lcp,A_len+1);
         int ans=0;
         fromto(2,A_len,i) if((sa[i]<=fA_len)!=(sa[i-1]<=fA_len)) ans=max(ans,lcp[i]);
         printf("Nejdelsi spolecny retezec ma delku %d.\n",ans);
