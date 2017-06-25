@@ -40,7 +40,7 @@ void getlcp(char *a,int n)//sa,rank->lcp
         if(rank[i]<=1) continue;
         if(h>0) --h;
         int j=sa[rank[i]-1];
-        while(a[i+h]==a[j+h]) ++h;
+        while(i+h<=n && j+h<=n && a[i+h]==a[j+h]) ++h;//!!!
         lcp[rank[i]]=h;
     }
 }
