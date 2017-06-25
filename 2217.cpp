@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <cstdlib>
 using namespace std;
-#define MAXN 500008
+#define MAXN 1000008
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 #define watch(a,size) for(int __i=0;__i<(size);++__i) printf("[%d]=%d ",__i,(a)[__i]);printf("\n");
 typedef pair<int,int> sta;
@@ -19,6 +19,7 @@ bool cmp(int x,int y)
 
 void getsa(char *a,int n)//->sa,rank
 {
+    memset(sa,0,sizeof(sa));
     memset(rank,-1,sizeof(rank));
     fromto(1,n,i) {sa[i]=i;rank[i]=a[i];}
     for(sa_k=1;sa_k<=n;sa_k*=2) {
