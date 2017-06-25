@@ -35,7 +35,7 @@ int lcp[MAXN];
 void getlcp(char *a,int n)//sa,rank->lcp
 {
     int h=0;
-    fromto(1,n,i) rank[sa[i]]=i;
+    fromto(1,n,i) rank[sa[i]]=i;//!!!
     fromto(1,n,i) {
         if(rank[i]<=1) continue;
         if(h>0) --h;
@@ -48,7 +48,8 @@ void getlcp(char *a,int n)//sa,rank->lcp
 int main()
 {
     int casecnt;
-    scanf("%d\n",&casecnt);
+    scanf("%d",&casecnt);
+    getchar();
     while(casecnt--) {
         gets(A+1);gets(B+1);
         fA_len=strlen(A+1);
