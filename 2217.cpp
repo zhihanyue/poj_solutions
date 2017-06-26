@@ -5,44 +5,38 @@
 #include<vector>
 #include<cmath>
 #include<cstdio>
-#define maxn 500000
+#define maxn 500008
 using namespace std;
- 
-int rk[maxn+50], sa[maxn+50],lcp[maxn+50];
-int tmp[maxn + 50];
+typedef pair<int,int> sta;
+
+int rk[2*maxn], sa[maxn],lcp[maxn];
+int tmp[maxn];
 int k,n;
-bool cmp_sa(int i, int j)
+bool cmp_sa(int x, int y)
 {
-    if (rk[i] != rk[j]) return rk[i] < rk[j];
-    else {
-        int ri = i + k <= n ? rk[i + k] : -1;
-        int rj = j + k <= n ? rk[j + k] : -1;
-        return ri < rj;
-    }
+    return sta(rk[x],rk[x+k])<sta(rk[y],rk[y+k]);
 }
  
-void construct_sa(char *s, int *sa)
+void construct_sa(char *s, int len)
 {
+    memset(rk,-1,sizeof(rk));
     n = strlen(s);
-    for (int i = 0; i <= n; i++){
+    for (int i = 0; i < n; i++){
         sa[i] = i;
-        rk[i] = i < n ? s[i] : -1;
+        rk[i] = s[i];
     }
-    for (k = 1; k <= n; k <<= 1)
+    sa[n]=n;
+    for (k = 1; k <= n; k*=2)
     {
         sort(sa, sa + n + 1, cmp_sa);
         tmp[sa[0]] = 0;
         for (int i = 1; i <= n; i++)
-        {
             tmp[sa[i]] = tmp[sa[i - 1]] + (cmp_sa(sa[i - 1], sa[i]) ? 1 : 0);
-        }
-        for (int i = 0; i <= n; i++){
-            rk[i] = tmp[i];
-        }
+        for (int i = 0; i <= n; i++) rk[i] = tmp[i];
     }
 }
  
-void construct_lcp(char *s, int *sa, int *lcp)
+void construct_lcp(char *s, int len)
 {
     n = strlen(s);
     for (int i = 0; i <= n; i++) rk[sa[i]] = i;
@@ -55,7 +49,7 @@ void construct_lcp(char *s, int *sa, int *lcp)
     }
 }
  
-char str1[maxn + 50], str2[maxn + 50];
+char str1[maxn], str2[maxn];
  
 int main()
 {
@@ -67,10 +61,11 @@ int main()
         int len = strlen(str1);
         str2[0] = '#';
         strcat(str1, str2);
-        construct_sa(str1 ,sa);
-        construct_lcp(str1,sa,lcp);
+        int len2=strlen(str1);
+        construct_sa(str1,len2);
+        construct_lcp(str1,len2);
         int ans = 0;
-        for (int i = 0; i < strlen(str1); i++)
+        for (int i = 0; i < len2; i++)
         {
             if ((sa[i] < len) != (sa[i + 1]) < len){
                 ans = max(ans, lcp[i]);
