@@ -1,77 +1,62 @@
-#include<iostream>
-#include<cstring>
-#include<algorithm>
-#include<string>
-#include<vector>
-#include<cmath>
-#include<cstdio>
-#define maxn 500008
+#include <cstdio>
+#include <vector>
+#include <cstring>
+#include <algorithm>
+#include <cstdlib>
 using namespace std;
+#define MAXN 1000008
+#define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
+#define watch(a,size) for(int __i=0;__i<(size);++__i) printf("[%d]=%d ",__i,(a)[__i]);printf("\n");
 typedef pair<int,int> sta;
+char A[2*MAXN],B[MAXN],fA_len;
 
-int rk[2*maxn], sa[maxn],lcp[maxn];
-int tmp[maxn];
-int k,n;
-bool cmp_sa(int x, int y)
+int sa[MAXN],rank[2*MAXN],lcp[MAXN],sa_k;
+
+bool cmp(int x,int y)
 {
-    return sta(rk[x],rk[x+k])<sta(rk[y],rk[y+k]);
+    return sta(rank[x],rank[x+sa_k])<sta(rank[y],rank[y+sa_k]);
 }
- 
-void construct_sa(char *s, int len)
+
+void getsa(char *a,int n)//->sa,rank
 {
-    memset(rk,-1,sizeof(rk));
-    n = strlen(s);
-    for (int i = 0; i < n; i++){
-        sa[i] = i;
-        rk[i] = s[i];
-    }
-    sa[n]=n;
-    for (k = 1; k <= n; k*=2)
-    {
-        sort(sa, sa + n + 1, cmp_sa);
-        tmp[sa[0]] = 0;
-        for (int i = 1; i <= n; i++)
-            tmp[sa[i]] = tmp[sa[i - 1]] + (cmp_sa(sa[i - 1], sa[i]) ? 1 : 0);
-        for (int i = 0; i <= n; i++) rk[i] = tmp[i];
+    memset(rank,-1,sizeof(rank));
+    fromto(1,n,i) {sa[i]=i;rank[i]=a[i];}
+    for(sa_k=1;sa_k<=n;sa_k*=2) {
+        sort(sa+1,sa+n+1,cmp);
+        static int newrank[2*MAXN];
+        newrank[sa[1]]=1;
+        fromto(2,n,i) newrank[sa[i]]=newrank[sa[i-1]]+cmp(sa[i-1],sa[i]);
+        fromto(1,n,i) rank[i]=newrank[i];
     }
 }
- 
-void construct_lcp(char *s, int len)
+
+void getlcp(char *a,int n)//sa,rank->lcp
 {
-    n = strlen(s);
-    for (int i = 0; i <= n; i++) rk[sa[i]] = i;
-    int h = 0;
-    lcp[0] = 0; 
-    for (int i = 0; i < n; i++){
-        int j = sa[rk[i] - 1];
-        for (h ? h-- : 0; j + h < n&&i + h < n&&s[j + h] == s[i + h]; h++);
-        lcp[rk[i] - 1] = h;
+    int h=0;
+    fromto(1,n,i) rank[sa[i]]=i;//!!!
+    fromto(1,n,i) {
+        if(rank[i]<=1) continue;
+        if(h>0) --h;
+        int j=sa[rank[i]-1];
+        while(i+h<=n && j+h<=n && a[i+h]==a[j+h]) ++h;//!!!
+        lcp[rank[i]]=h;
     }
 }
- 
-char str1[maxn], str2[maxn];
- 
+
 int main()
 {
-    int T; cin >> T; getchar();
-    while (T--)
-    {
-        gets(str1);
-        gets(str2+1);
-        int len = strlen(str1);
-        str2[0] = '#';
-        strcat(str1, str2);
-        int len2=strlen(str1);
-        construct_sa(str1,len2);
-        construct_lcp(str1,len2);
-        int ans = 0;
-        for (int i = 0; i < len2; i++)
-        {
-            if ((sa[i] < len) != (sa[i + 1]) < len){
-                ans = max(ans, lcp[i]);
-            }
-        }
-        printf("Nejdelsi spolecny retezec ma delku %d.\n", ans);
+    int casecnt; scanf("%d",&casecnt); getchar();
+    while(casecnt--) {
+        gets(A+1);gets(B+1);
+        fA_len=strlen(A+1);
+        B[0]='$';
+        strcat(A+1,B);
+        int A_len=strlen(A+1);
+        getsa(A,A_len);
+        getlcp(A,A_len);
+        int ans=0;
+        fromto(2,A_len,i) if((sa[i]<=fA_len)!=(sa[i-1]<=fA_len)) ans=max(ans,lcp[i]);
+        printf("Nejdelsi spolecny retezec ma delku %d.\n",ans);
     }
     return 0;
 }
