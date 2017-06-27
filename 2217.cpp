@@ -8,7 +8,8 @@ using namespace std;
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 #define watch(a,size) for(int __i=0;__i<(size);++__i) printf("[%d]=%d ",__i,(a)[__i]);printf("\n");
 typedef pair<int,int> sta;
-char A[2*MAXN],B[MAXN],fA_len;
+char A[2*MAXN],B[MAXN];
+int fA_len;
 
 int sa[MAXN],rank[2*MAXN],lcp[MAXN],sa_k;
 
