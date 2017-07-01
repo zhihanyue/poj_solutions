@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#define TMAX 10008
+#define TMAX 1000008
 #define PMAX 1000008
 using namespace std;
 
