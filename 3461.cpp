@@ -1,46 +1,45 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#define TMAX 1000008
-#define PMAX 1000008
 using namespace std;
 
-char T[TMAX],T_len;
-char P[PMAX],P_len;
-int f[TMAX];
+int f[10000];
 
-void getfail()
+int KMP(char P[],char T[])
 {
-    int j=0;
-    f[1]=0;
-    for(int i=2;i<=T_len+1;++i) {
-        while(j>0 && T[i]!=T[j+1]) j=f[j];
-        if(T[i]==T[j+1]) ++j;
-        f[i]=j;
+    int cnt=0;
+    int n=strlen(P+1)+1,m=strlen(T+1)+1,j=0;
+    for(int i=1;i<=n;++i) {
+        while(j>0 && T[j+1]!=P[i]) j=f[j];
+        if(T[j+1]==P[i]) ++j;
+        //此时的j表示以i位置为尾的最大匹配长度 
+        if(j==m-1) ++cnt;
     }
+    return cnt;
 }
 
-int KMP()
+void getfail(char T[])
 {
-    int j=0,res=0;
-    for(int i=1;i<=P_len+1;++i) {
-        while(j>0 && P[i]!=T[j+1]) j=f[j];
-        if(P[i]==T[j+1]) ++j;
-        if(j==T_len) ++res;
+    int m=strlen(T+1)+1,j=0;
+    f[1]=0;
+    for(int i=2;i<=m;++i) {//错位匹配法，不能计算后缀为整个串的情况 
+        while(j>0 && T[j+1]!=T[i])
+            j=f[j];
+        if(T[j+1]==T[i])
+            ++j;
+        f[i]=j;//记录每一次失配的正确转移位置 
     }
-    return res;
 }
 
 int main()
 {
+    static char P[1000008],T[10008];
     int casecnt;
     scanf("%d",&casecnt);
     while(casecnt--) {
         scanf("%s%s",T+1,P+1);
-        T_len=strlen(T+1);
-        P_len=strlen(P+1);
-        getfail();
-        printf("%d\n",KMP());
+        getfail(T);
+        printf("%d\n",KMP(P,T));
     }
     return 0;
 }
