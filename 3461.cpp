@@ -3,7 +3,7 @@
 #include <cstdlib>
 using namespace std;
 
-int f[10000];
+int f[10008];
 
 int KMP(char P[],char T[])
 {
