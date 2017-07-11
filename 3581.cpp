@@ -20,7 +20,7 @@ void getsa(int arr[],int n)
     memset(rank,-1,sizeof(rank));
     fromto(1,n,i) {sa[i]=i;rank[i]=arr[i];}
     for(k_len=1;k_len<=n;k_len*=2) {
-        sort(sa+1,sa+n+1,cmp);
+        stable_sort(sa+1,sa+n+1,cmp);
         static int newrank[2*MAXN];
         newrank[sa[1]]=1;
         fromto(2,n,i) newrank[sa[i]]=newrank[sa[i-1]]+cmp(sa[i-1],sa[i]);
