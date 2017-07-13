@@ -14,40 +14,48 @@ int sa[MAXN],rank[2*MAXN],k_len;
 
 void jssort(int arr[],int n)
 {
-    //printf("----------\n"); 
-    //printf("rank:\n");watch(rank,n+1);
-    //printf("old:\n");watch(arr,n+1);
+//  printf("----------\n"); 
+//  printf("rank:\n");watch(rank,n+1);
+//  printf("old:\n");watch(arr,n+1);
     int k=n<256?256:n+1;
     static int js[MAXN],newarr[MAXN];
     memset(js,0,sizeof(js));
     fromto(1,n,i) ++js[rank[arr[i]+k_len]];
     fromto(1,k,i) js[i]+=js[i-1];//千万别令from=2，这样少了为0的情况！！！ 
     fromdownto(n,1,i) newarr[js[rank[arr[i]+k_len]]--]=arr[i];
-    //printf("z:\n");watch(newarr,n+1);
+//  printf("z:\n");watch(newarr,n+1);
     memset(js,0,sizeof(js));
     fromto(1,n,i) ++js[rank[newarr[i]]];
     fromto(1,k,i) js[i]+=js[i-1];
     fromdownto(n,1,i) arr[js[rank[newarr[i]]]--]=newarr[i];
-    //printf("new:\n");watch(arr,n+1);
-    //printf("----------\n");
+//  printf("new:\n");watch(arr,n+1);
+//  printf("----------\n");
 }
 
-bool cmp(int a,int b)
+bool cmp1(int x,int y)
 {
-    return sta(rank[a],rank[a+k_len])<sta(rank[b],rank[b+k_len]);
+    return sta(rank[x],rank[x+k_len])<sta(rank[y],rank[y+k_len]);
+}
+
+bool cmp2(int x,int y)
+{
+    return B[x]<B[y];
 }
 
 void getsa(int arr[],int n)
 {
     memset(sa,0,sizeof(sa)); 
     memset(rank,0,sizeof(rank));
-    fromto(1,n,i) {sa[i]=i;rank[i]=arr[i];}
+    fromto(1,n,i) sa[i]=i;
+    sort(sa+1,sa+n+1,cmp2);
+    rank[sa[1]]=1;
+    fromto(2,n,i) rank[sa[i]]=rank[sa[i-1]]+(arr[sa[i-1]]<arr[sa[i]]);
+    
     for(k_len=1;k_len<=n;k_len*=2) {
         jssort(sa,n);
-        //stable_sort(sa+1,sa+n+1,cmp);
         static int newrank[2*MAXN];
         newrank[sa[1]]=1;
-        fromto(2,n,i) newrank[sa[i]]=newrank[sa[i-1]]+cmp(sa[i-1],sa[i]);
+        fromto(2,n,i) newrank[sa[i]]=newrank[sa[i-1]]+cmp1(sa[i-1],sa[i]);
         fromto(1,n,i) rank[i]=newrank[i];
     }
 }
