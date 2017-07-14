@@ -19,7 +19,7 @@ void jssort(int arr[],int n)
     memset(js,0,sizeof(js));
     fromto(1,n,i) ++js[rank[arr[i]+k_len]];
     fromto(1,k,i) js[i]+=js[i-1];//千万别令from=2，这样少了为0的情况！！！ 
-    fromdownto(n,1,i) newarr[js[rank[arr[i]+k_len]]--]=arr[i];
+    fromto(1,n,i) newarr[js[rank[arr[i]+k_len]]--]=arr[i];
     
     memset(js,0,sizeof(js));
     fromto(1,n,i) ++js[rank[newarr[i]]];
