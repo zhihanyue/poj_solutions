@@ -24,7 +24,7 @@ void jssort(int arr[],int n)
     //memset(js,0,sizeof(js));
     fromto(1,n,i) ++js[rank[newarr[i]]];
     fromto(1,k,i) js[i]+=js[i-1];
-    fromdownto(n,1,i) arr[js[rank[newarr[i]]]--]=newarr[i];
+    fromto(1,n,i) arr[js[rank[newarr[i]]]--]=newarr[i];
 }
 
 bool cmp_init(int x,int y){return B[x]<B[y];}
