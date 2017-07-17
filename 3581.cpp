@@ -16,14 +16,14 @@ void jssort(int arr[],int n)
 {
     int k=n;//要根据题目不同来设定 
     static int js[MAXN],newarr[MAXN];
-    //memset(js,0,sizeof(js));
-    fill(js,js+k+1,0);
+    memset(js,0,sizeof(js));
+    //fill(js,js+k+1,0);
     fromto(1,n,i) ++js[rank[arr[i]+k_len]];
     fromto(1,k,i) js[i]+=js[i-1];//千万别令from=2，这样少了为0的情况！！！ 
     fromdownto(1,n,i) newarr[js[rank[arr[i]+k_len]]--]=arr[i];
     
-    //memset(js,0,sizeof(js));
-    fill(js,js+k+1,0);
+    memset(js,0,sizeof(js));
+    //fill(js,js+k+1,0);
     fromto(1,n,i) ++js[rank[newarr[i]]];
     fromto(1,k,i) js[i]+=js[i-1];
     fromdownto(n,1,i) arr[js[rank[newarr[i]]]--]=newarr[i];//n->1是为了保证排序稳定性 
