@@ -60,14 +60,14 @@ void dfs(int u,int p,int d)
 void ST_init()
 {
     fromto(1,dfs_len,i) ST[0][i]=dfsxu[i];
-    fromgoto(1,(int)log2(dfs_len)+1,i) fromto(1,dfs_len-(1<<i)+1,j)
+    fromgoto(1,(int)(log((double)dfs_len)/log(2.0))+1,i) fromto(1,dfs_len-(1<<i)+1,j)
         ST[i][j]=min(ST[i-1][j],ST[i-1][j+(1<<(i-1))]);
 }
 
 pair<int,int> ST_query(int L,int R)
 {
     if(L>R) swap(L,R);
-    int k=(int)log2(R-L+1);
+    int k=(int)(log((double)R-L+1)/log(2.0));
     return min(ST[k][L],ST[k][R+1-(1<<k)]);
 }
 
@@ -92,8 +92,10 @@ int main()
     fromto(1,n-1,i) {
         int a,b,w;
         scanf("%d%d%d",&a,&b,&w);
-        G[a].push_back((edge){b,w,i});
-        G[b].push_back((edge){a,w,i});
+        edge tempe={b,w,i};
+        G[a].push_back(tempe);
+        tempe.to=a;
+        G[b].push_back(tempe);
     }
     BIT_len=n*2+1;
     lca_init(1);
@@ -114,5 +116,6 @@ int main()
             s=to;
         }
     }
+    //system("pause");
     return 0;
 }
