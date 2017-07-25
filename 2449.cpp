@@ -39,12 +39,12 @@ int solve(int S,int T,int K)//失败返回-1
     while(!q.empty()) {
         Sta thista=q.top();q.pop();
         int f_u=thista.first,u=thista.second;
-        //printf("f_u=%d u=%d\n",f_u,u);
+        printf("f_u=%d u=%d\n",f_u,u);
         ++times[u];
         if(u==T) ans[times[T]]=f_u-h[u];
         if(times[u]>1 && ans[times[u]]==ans[times[u]-1]) {//处理重边！！！ 
             --times[u];
-            continue;
+            //continue;
         }
         if(times[T]==K) return f_u-h[u];
         if(times[u]>K) continue;
