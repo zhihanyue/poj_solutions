@@ -33,6 +33,7 @@ int solve(int S,int T,int K)//失败返回-1
         }
     }
     
+    if(S==T) ++K;
     static int times[NMAX]={0},ans[NMAX]={0};
     q.push(Sta(h[S],S));
     while(!q.empty()) {
@@ -68,6 +69,5 @@ int main()
     }
     scanf("%d%d%d",&S,&T,&K);
     printf("%d\n",solve(S,T,K));
-    //system("pause");
     return 0;
 }
