@@ -1,98 +1,55 @@
-#include <iostream>
 #include <cstdio>
-#include <cstring>
+#include <vector>
 #include <queue>
+#define NMAX 1008
+#define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
+#define fromgoto(from,to,i) for(int (i)=(from),__size=(to);i<=(__size);++(i))
 using namespace std;
-const int INF = 0x3f3f3f3f;
-const int MAX = 1005;
-int n,m;
-int start,end,k;
-struct Edge
-{
-    int w;
-    int to;
-    int next;
-};
-Edge e[100005];
-int head[MAX],edgeNum;
-int dis[MAX];   //dis[i]表示从i点到end的最短距离
-bool vis[MAX];
-int cnt[MAX];
-vector<Edge> opp_Graph[MAX];
+typedef pair<int,int> Edge;//目标点,边权 
+typedef pair<int,int> Sta;//价值,编号 
 
-struct Node
-{
-    int f,g;    //f = g+dis[v]
-    int v;      //当前到达的节点
-    Node(int a, int b,int c):f(a),g(b),v(c){}
-    bool operator < (const Node& a) const
-    {
-        return a.f < f;
-    }
-};
+vector<Edge> G[NMAX],rG[NMAX];
+int G_N;
 
-void addEdge(int from, int to, int w)
+int solve(int S,int T,int K)//失败返回-1
 {
-    e[edgeNum].to = to;
-    e[edgeNum].w = w;
-    e[edgeNum].next = head[from];
-    head[from] = edgeNum++;
-}
-
-void dijikastra(int start)
-{
-    int i;
-    memset(vis,0,sizeof(vis));
-    for(i = 1; i <= n; i++)
-        dis[i] = INF;
-    dis[start] = 0;
-    priority_queue<Node> que;
-    que.push(Node(0,0,start));
-    Node next(0,0,0);
-    while(!que.empty())
-    {
-        Node now = que.top();
-        que.pop();
-        if(vis[now.v])              //从集合T中选取具有最短距离的节点
-            continue;
-        vis[now.v] = true;          //标记节点已从集合T加入到集合S中
-        for(i = 0; i < opp_Graph[now.v].size(); i++)    //更新从源点到其它节点(集合T中)的最短距离
-        {
-            Edge edge = opp_Graph[now.v][i];
-            if(!vis[edge.to] && dis[now.v] + edge.w < dis[edge.to])     //加不加前面的判断无所谓
-            {
-                dis[edge.to] = dis[now.v] + edge.w;
-                next.f = dis[edge.to];
-                next.v = edge.to;
-                que.push(next);
+    static priority_queue<Sta,vector<Sta>,greater<Sta> > q;
+    static int h[NMAX];
+    fill(h,h+G_N+1,INT_MAX);
+    h[T]=0;
+    q.push(Sta(0,T));
+    while(!q.empty()) {//测试用cnt判重而不是d数组的求法！！！ 
+        Sta thista=q.top();q.pop();
+        int u=thista.second;
+        if(h[u]<thista.first) continue;
+        fromgoto(0,rG[u].size()-1,i) {
+            Edge e=rG[u][i];
+            int v=e.first,w=e.second;
+            if(h[v]>h[u]+w) {//如果不能扩展出最优状态的不考虑，反映了最优化剪枝的思想！！ 
+                h[v]=h[u]+w;
+                q.push(Sta(h[v],v));
             }
         }
     }
-}
-
-int A_Star()
-{
-    int i;
-    priority_queue<Node> que;
-    if(dis[start] == INF)
-        return -1;
-    que.push(Node(dis[start],0,start));
-    Node next(0,0,0);
-    while(!que.empty())
-    {
-        Node now = que.top();
-        que.pop();
-        cnt[now.v]++;
-        if(cnt[end] == k)
-            return now.f;
-        if(cnt[now.v] > k)
+    
+    static int times[NMAX]={0},ans[NMAX]={0};
+    q.push(Sta(h[S],S));
+    while(!q.empty()) {
+        Sta thista=q.top();q.pop();
+        int f_u=thista.first,u=thista.second;
+        //printf("f_u=%d u=%d\n",f_u,u);
+        ++times[u];
+        if(u==T) ans[times[T]]=f_u-h[u];
+        if(times[u]>1 && ans[times[u]]==ans[times[u]-1]) {//处理重边！！！ 
+            --times[u];
             continue;
-        for(i = head[now.v]; i != -1; i = e[i].next)
-        {
-            next.v = e[i].to;
-            next.g = now.g + e[i].w;
-            next.f = next.g + dis[e[i].to];
-            que.push(next);
+        }
+        if(times[T]==K) return f_u-h[u];
+        if(times[u]>K) continue;
+        fromgoto(0,G[u].size()-1,i) {
+            Edge e=G[u][i];
+            int v=e.first,w=e.second;
+            q.push(Sta(f_u-h[u]+w+h[v],v));
         }
     }
     return -1;
@@ -100,27 +57,16 @@ int A_Star()
 
 int main()
 {
-    int i;
-    int from,to,w;
-    edgeNum = 0;
-    memset(head,-1,sizeof(head));
-    memset(opp_Graph,0,sizeof(opp_Graph));
-    memset(cnt,0,sizeof(cnt));
-    scanf("%d %d",&n,&m);
-    Edge edge;
-    for(i = 1; i <= m; i++)
-    {
-        scanf("%d %d %d",&from,&to,&w);
-        addEdge(from,to,w);
-        edge.to = from;
-        edge.w = w;
-        opp_Graph[to].push_back(edge);
+    int M,S,T,K;
+    scanf("%d%d",&G_N,&M);
+    fromto(1,M,i) {
+        int A,B,T;
+        scanf("%d%d%d",&A,&B,&T);
+        G[A].push_back(Edge(B,T));
+        rG[B].push_back(Edge(A,T));
     }
-    scanf("%d %d %d",&start,&end,&k);
-    if(start == end)
-        k++;
-    dijikastra(end);
-    int result = A_Star();
-    printf("%d\n",result);
+    scanf("%d%d%d",&S,&T,&K);
+    printf("%d\n",solve(S,T,K));
+    //system("pause");
     return 0;
 }
