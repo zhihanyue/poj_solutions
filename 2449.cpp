@@ -7,44 +7,45 @@
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 #define fromgoto(from,to,i) for(int (i)=(from),__size=(to);i<=(__size);++(i))
 using namespace std;
-typedef pair<int,int> Edge;//目标点,边权 
-typedef pair<int,int> Sta;//价值,编号 
+typedef pair<int,int> Edge;
+typedef pair<int,int> Sta;
 
 vector<Edge> G[NMAX],rG[NMAX];
 int G_N;
 
-int solve(int S,int T,int K)//失败返回-1
+int solve(int S,int T,int K)
 {
     static priority_queue<Sta,vector<Sta>,greater<Sta> > q;
-    static int h[NMAX];
+    static int h[NMAX],times[NMAX]={0};
     fill(h,h+G_N+1,INF);
     h[T]=0;
     q.push(Sta(0,T));
-    while(!q.empty()) {//测试用cnt判重而不是d数组的求法！！！ 
+    while(!q.empty()) {
         Sta thista=q.top();q.pop();
         int u=thista.second;
-        if(h[u]<thista.first) continue;
+        ++times[u];
+        if(times[u]>1) continue;
         fromgoto(0,rG[u].size()-1,i) {
             Edge e=rG[u][i];
             int v=e.first,w=e.second;
-            if(h[v]>h[u]+w) {//如果不能扩展出最优状态的不考虑，反映了最优化剪枝的思想！！ 
+            if(h[v]>h[u]+w) {
                 h[v]=h[u]+w;
                 q.push(Sta(h[v],v));
             }
         }
     }
     
+    memset(times,0,sizeof(times));
     if(S==T) ++K;
-    static int times[NMAX]={0},ans[NMAX]={0};
     q.push(Sta(h[S],S));
     while(!q.empty()) {
         Sta thista=q.top();q.pop();
         int f_u=thista.first,u=thista.second;
         ++times[u];
         //if(u==T) ans[times[T]]=f_u-h[u];
-        /*if(times[u]>1 && ans[times[u]]==ans[times[u]-1]) {//路径长相等的情况(如重边)！！！ 
+        /*if(times[u]>1 && ans[times[u]]==ans[times[u]-1]) {
             --times[u];
-            //continue;//要通过长度相等的路径继续扩展，不能加上？！ 
+            //continue;
         }*/
         //printf("u=%d f_u=%d\n",u,f_u);
         if(times[u]>K) continue;
