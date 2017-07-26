@@ -2,7 +2,7 @@
 #include <vector>
 #include <queue>
 #include <climits> 
-#define NMAX 1008
+#define NMAX 1001
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 #define fromgoto(from,to,i) for(int (i)=(from),__size=(to);i<=(__size);++(i))
 using namespace std;
