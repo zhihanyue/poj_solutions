@@ -41,14 +41,14 @@ int solve(int S,int T,int K)//失败返回-1
         Sta thista=q.top();q.pop();
         int f_u=thista.first,u=thista.second;
         ++times[u];
-        if(u==T) ans[times[T]]=f_u-h[u];
-        if(times[u]>1 && ans[times[u]]==ans[times[u]-1]) {//路径长相等的情况(如重边)！！！ 
+        //if(u==T) ans[times[T]]=f_u-h[u];
+        /*if(times[u]>1 && ans[times[u]]==ans[times[u]-1]) {//路径长相等的情况(如重边)！！！ 
             --times[u];
             //continue;//要通过长度相等的路径继续扩展，不能加上？！ 
-        }
+        }*/
         //printf("u=%d f_u=%d\n",u,f_u);
-        if(times[T]==K) return ans[K];
-        if(times[u]>K) continue; 
+        if(times[u]>K) continue;
+        if(times[T]==K) return f_u-h[u];
         fromgoto(0,G[u].size()-1,i) {
             Edge e=G[u][i];
             int v=e.first,w=e.second;
