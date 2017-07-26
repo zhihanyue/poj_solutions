@@ -3,6 +3,7 @@
 #include <queue>
 #include <climits> 
 #define NMAX 1001
+#define INF (INT_MAX/3)
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
 #define fromgoto(from,to,i) for(int (i)=(from),__size=(to);i<=(__size);++(i))
 using namespace std;
@@ -16,7 +17,7 @@ int solve(int S,int T,int K)//失败返回-1
 {
     static priority_queue<Sta,vector<Sta>,greater<Sta> > q;
     static int h[NMAX];
-    fill(h,h+G_N+1,INT_MAX);
+    fill(h,h+G_N+1,INF);
     h[T]=0;
     q.push(Sta(0,T));
     while(!q.empty()) {//测试用cnt判重而不是d数组的求法！！！ 
@@ -47,7 +48,7 @@ int solve(int S,int T,int K)//失败返回-1
         }
         //printf("u=%d f_u=%d\n",u,f_u);
         if(times[T]==K) return ans[K];
-        if(times[u]>K) continue;
+        if(times[u]>K) continue; 
         fromgoto(0,G[u].size()-1,i) {
             Edge e=G[u][i];
             int v=e.first,w=e.second;
