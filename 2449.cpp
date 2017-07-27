@@ -25,13 +25,11 @@ int solve(int S,int T,int K)
         int u=thista.second;
         ++times[u];
         if(times[u]>1) continue;
+        if(times[u]==1) h[u]=thista.first;
         fromgoto(0,rG[u].size()-1,i) {
             Edge e=rG[u][i];
             int v=e.first,w=e.second;
-            if(h[v]>h[u]+w) {
-                h[v]=h[u]+w;
-                q.push(Sta(h[v],v));
-            }
+            q.push(Sta(h[u]+w,v));
         }
     }
     
