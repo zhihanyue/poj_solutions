@@ -29,6 +29,5 @@ int main()
             cout << a[L++];
         else cout << a[R--];
     }
-    cout << endl;
     return 0;
 }
