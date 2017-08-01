@@ -26,9 +26,9 @@ int main()
             }
         }
         if(isL)
-            b[i]=a[L++];
-        else b[i]=a[R--];
+            cout << a[L++];
+        else cout << a[R--];
     }
-    cout << b+1 << endl;
+    cout << endl;
     return 0;
 }
