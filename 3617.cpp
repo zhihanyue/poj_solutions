@@ -1,33 +1,72 @@
-#include <iostream>
+#include<cstdio>
+#include<cstring>
+#include<iostream>
 using namespace std;
-
-char a[2008],b[2008];
+int n,str[2011];
 int main()
 {
-    int N;
-    cin >> N;
-    for(int i=1;i<=N;++i)
-        cin >> a[i];
-    int L=1,R=N;
-    for(int i=1;i<=N;++i)
+    while(scanf("%d",&n)!=EOF)
     {
-        bool isL=false;
-        for(int j=0;j<=R-L;++j)
+    char ch;
+    for(int i=0;i<n;i++)
+    {
+        getchar();
+        ch=getchar();
+        str[i]=ch-'A';
+    }
+    int pre=0,last=n-1,count=0;
+    for(int i=0;i<n;i++)
+    {
+        if(str[pre]==str[last])
         {
-            if(a[L+j]<a[R-j])
+        int pr=pre,la=last,flag=0;
+        while(pr<=la)
+        {
+            if(str[pr]<str[la])
             {
-                isL=true;
-                break;
+            printf("%c",str[pre]+'A');
+            count++;
+            flag=1;
+            pre++;    
+            break;
             }
-            else if(a[L+j]>a[R-j])
+            else if(str[pr]>str[la])
             {
-                isL=false;
-                break;
+            printf("%c",str[last]+'A');
+            count++;
+            flag=1;
+            last--;
+            break;
             }
+            pr++,la--;
         }
-        if(isL)
-            cout << a[L++];
-        else cout << a[R--];
+        if(!flag)
+        {
+            printf("%c",str[pre]+'A');
+            count++;
+            pre++;
+        }
+        }
+        else if(str[pre]<str[last])
+        {
+        printf("%c",str[pre]+'A');
+        count++;
+        pre++;
+        }
+        else
+        {
+        printf("%c",str[last]+'A');
+        count++;
+        last--;    
+        }
+        if(count==80)
+        {
+        count=0;
+        printf("\n");
+        }
+    }
+    if(count)
+        printf("\n");
     }
     return 0;
 }
