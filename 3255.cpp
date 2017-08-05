@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 #include <climits>
 #include <vector>
 #include <queue>
@@ -34,20 +33,19 @@ int main()
         for(int i=0,size=G[u].size();i<size;++i)
         {
             int v=G[u][i].first,D=G[u][i].second;
-            int d2=d[u]+D;
-            if(d[v]>d2)
+            if(d[v]>d[u]+D)
             {
-                swap(d[v],d2);
+                d1[v]=d[v];
+                d[v]=d[u]+D;
                 if(!inq[v])
                 {
                     q.push(v);
                     inq[v]=true;
                 }
             }
-            
-            if(d1[v]>d2 && d[v]<d2)
+            else if(d[v]<d[u]+D && d1[v]>d[u]+D)
             {
-                d1[v]=d2;
+                d1[v]=d[u]+D;
                 if(!inq[v])
                 {
                     q.push(v);
