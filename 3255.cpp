@@ -21,7 +21,7 @@ int main()
     }
     
     for(int i=1;i<=N;++i)
-        d[i]=d1[i]=INT_MAX;
+        d[i]=d1[i]=INT_MAX/2;
     d[1]=0;
     q.push(1);
     inq[1]=true;
@@ -43,9 +43,18 @@ int main()
                     inq[v]=true;
                 }
             }
-            else if(d[v]<d[u]+D && d1[v]>d[u]+D)
+            else if(d[v]!=d[u]+D && d1[v]>d[u]+D)
             {
                 d1[v]=d[u]+D;
+                if(!inq[v])
+                {
+                    q.push(v);
+                    inq[v]=true;
+                }
+            }
+            else if(d[v]!=d1[u]+D && d1[v]>d1[u]+D)
+            {
+                d1[v]=d1[u]+D;
                 if(!inq[v])
                 {
                     q.push(v);
