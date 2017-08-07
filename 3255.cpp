@@ -96,7 +96,12 @@ int main()
     int nN, nR;
     int nA, nB, nD;
 
-
+    while (scanf("%d%d", &nN, &nR) == 2)
+    {
+        for (int i = 1; i <= nN; ++i)
+        {
+            graph[i].clear();
+        }
 
         while (nR--)
         {
@@ -105,6 +110,6 @@ int main()
             graph[nB].push_back(Edge(nA, nD));
         }
         printf("%d\n", Second(1, nN, nN));
-    
+    }
     return 0;
 }
