@@ -13,7 +13,7 @@ long long d[5008],d1[5008];
 int main()
 {
     int N,R;
-    while(scanf("%d%d", &nN, &nR) == 2)
+    while(scanf("%d%d", &N, &R) == 2)
     {
         for(int i=1;i<=N;++i)
             G[i].clear();
