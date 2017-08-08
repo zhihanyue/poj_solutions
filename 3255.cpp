@@ -1,5 +1,6 @@
 #include <iostream>
 #include <climits>
+#include <cstring>
 #include <vector>
 #include <queue>
 using namespace std;
@@ -74,13 +75,5 @@ int main()
         }
         cout << d1[N] << endl;
     }
-/*
-5 5
-1 2 100
-2 3 100
-3 4 100
-2 4 5
-4 5 2
-*/
     return 0;
 }
