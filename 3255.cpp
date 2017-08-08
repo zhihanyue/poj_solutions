@@ -1,115 +1,86 @@
-#include <stdio.h>
-#include <string.h>
-#include <algorithm>
-#include <queue>
+#include <iostream>
+#include <climits>
 #include <vector>
+#include <queue>
 using namespace std;
-
-const int MAX_N = 5000 + 10;
-struct Edge
-{
-    int nE;
-    int nDis;
-    Edge(int e, int d):nE(e), nDis(d) {}
-};
-vector<Edge> graph[MAX_N];
-bool bVisit[MAX_N];
-int nSDis[MAX_N];
-int nEDis[MAX_N];
-
-struct Node
-{
-    int nN;
-    int nDis;
-
-    bool operator < (const Node& node) const
-    {
-        return nDis > node.nDis;
-    }
-};
-
-int ShortestPath(int nS, int nE, int* nDis, int nN)
-{
-    priority_queue<Node> pq;
-    memset(bVisit, false, sizeof(bVisit));
-    for (int i = 1; i <= nN; i++)
-    {
-        nDis[i] = 0x7fffffff;
-    }
-    nDis[nS] = 0;
-    Node head;
-    head.nDis = 0, head.nN = nS;
-    pq.push(head);
-
-    while (pq.empty() == false)
-    {
-        Node head = pq.top();
-        pq.pop();
-        int nU = head.nN;
-        if (bVisit[nU]) continue;
-        bVisit[nU] = true;
-
-        for (int i = 0; i < graph[nU].size(); ++i)
-        {
-            int nV = graph[nU][i].nE;
-            int nLen = head.nDis + graph[nU][i].nDis;
-            if (nLen < nDis[nV])
-            {
-                nDis[nV] = nLen;
-                Node node;
-                node.nDis = nLen;
-                node.nN = nV;
-                pq.push(node);
-            }
-        }
-    }
-   
-    return nDis[nE];
-}
-
-int Second(int nS, int nE, int nN)
-{
-    int nShortest = ShortestPath(nS, nE, nSDis, nN);
-    ShortestPath(nE, nS, nEDis, nN);
-
-    int nAns = 0x7fffffff;
-
-    for (int i = 1; i <= nN; ++i)
-    {
-        for (int j = 0; j < graph[i].size(); ++j)
-        {
-            int nU = i;
-            int nV = graph[i][j].nE;
-            int nLen = nSDis[i] + graph[i][j].nDis + nEDis[nV];
-            if (nLen != nShortest)
-            {
-                nAns = min(nAns, nLen);
-            }
-        }
-    }
-
-    return nAns;
-}
+vector<pair<int,int> > G[5008];
+queue<int> q;
+bool inq[5008];
+long long d[5008],d1[5008];
 
 int main()
 {
-    int nN, nR;
-    int nA, nB, nD;
-
-    while (scanf("%d%d", &nN, &nR) == 2)
+    int N,R;
+    while(cin >> N >> R)
     {
-        for (int i = 1; i <= nN; ++i)
+        for(int i=0;i<5008;++i)
+            G[i].clear();
+        memset(inq,false,sizeof(inq));
+        
+        if(N==0 || R==0)
+            break;
+        for(int i=1;i<=R;++i)
         {
-            graph[i].clear();
+            int A,B,D;
+            cin >> A >> B >> D;
+            G[A].push_back(make_pair(B,D));
+            G[B].push_back(make_pair(A,D));
         }
-
-        while (nR--)
+        
+        for(int i=1;i<=N;++i)
+            d[i]=d1[i]=INT_MAX;
+        d[1]=0;
+        q.push(1);
+        inq[1]=true;
+        while(!q.empty())
         {
-            scanf("%d%d%d", &nA, &nB, &nD);
-            graph[nA].push_back(Edge(nB, nD));
-            graph[nB].push_back(Edge(nA, nD));
+            int u=q.front();
+            q.pop();
+            inq[u]=false;
+            for(int i=0,size=G[u].size();i<size;++i)
+            {
+                int v=G[u][i].first,D=G[u][i].second;
+                if(d[v]>d[u]+D)
+                {
+                    d1[v]=d[v];
+                    d[v]=d[u]+D;
+                    if(!inq[v])
+                    {
+                        q.push(v);
+                        inq[v]=true;
+                    }
+                }
+                else if(d[v]!=d[u]+D && d1[v]>d[u]+D)
+                {
+    //              cout << v << ' ' << "d-" << u << '=' << d[u] << ' ' << D << endl;
+                    d1[v]=d[u]+D;
+                    if(!inq[v])
+                    {
+                        q.push(v);
+                        inq[v]=true;
+                    }
+                }
+                else if(d[v]!=d1[u]+D && d1[v]>d1[u]+D)
+                {
+    //              cout << v << ' ' << "d1-" << u << '=' << d1[u] << ' ' << D << endl;
+                    d1[v]=d1[u]+D;
+                    if(!inq[v])
+                    {
+                        q.push(v);
+                        inq[v]=true;
+                    }
+                }
+            }
         }
-        printf("%d\n", Second(1, nN, nN));
+        cout << d1[N] << endl;
     }
+/*
+5 5
+1 2 100
+2 3 100
+3 4 100
+2 4 5
+4 5 2
+*/
     return 0;
 }
