@@ -14,12 +14,10 @@ int main()
     int N,R;
     while(cin >> N >> R)
     {
-        for(int i=0;i<5008;++i)
+        for(int i=1;i<=N;++i)
             G[i].clear();
         memset(inq,false,sizeof(inq));
         
-        if(N==0 || R==0)
-            break;
         for(int i=1;i<=R;++i)
         {
             int A,B,D;
