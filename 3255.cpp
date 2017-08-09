@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdio>
 #include <climits>
 #include <cstring>
 #include <vector>
@@ -13,7 +12,7 @@ long long d[5008],d1[5008];
 int main()
 {
     int N,R;
-    while(scanf("%d%d", &N, &R) == 2)
+    while(cin >> N >> R)
     {
         for(int i=1;i<=N;++i)
             G[i].clear();
@@ -28,7 +27,7 @@ int main()
         }
         
         for(int i=1;i<=N;++i)
-            d[i]=d1[i]=INT_MAX-3;
+            d[i]=d1[i]=INT_MAX;
         d[1]=0;
         q.push(1);
         inq[1]=true;
@@ -50,7 +49,7 @@ int main()
                         inq[v]=true;
                     }
                 }
-                else if(d[v]!=d[u]+D && d1[v]>d[u]+D)
+                if(d[v]!=d[u]+D && d1[v]>d[u]+D)
                 {
     //              cout << v << ' ' << "d-" << u << '=' << d[u] << ' ' << D << endl;
                     d1[v]=d[u]+D;
@@ -60,7 +59,7 @@ int main()
                         inq[v]=true;
                     }
                 }
-                else if(d[v]!=d1[u]+D && d1[v]>d1[u]+D)
+                if(d[v]!=d1[u]+D && d1[v]>d1[u]+D)
                 {
     //              cout << v << ' ' << "d1-" << u << '=' << d1[u] << ' ' << D << endl;
                     d1[v]=d1[u]+D;
