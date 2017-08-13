@@ -1,7 +1,7 @@
 #include <iostream>
-#include <tr1/unordered_set>
+#include <set>
 using namespace std;
-using namespace tr1;
+
 #define K1 9973
 #define K2 15329
 
@@ -9,7 +9,7 @@ char str[1008][1008];
 unsigned long long T[108];
 unsigned long long strhash1[1008][1008],strhash[1008][1008];
 
-unordered_set<unsigned long long> myset(100000);
+multiset<unsigned long long> myset;
 
 char tempstr[1008][1008];
 int main()
@@ -63,15 +63,20 @@ int main()
             for(int i=N-P;i>=1;--i)
                 strhash[i][j]=strhash[i+1][j]*K2-strhash1[i+P][j]*t2+strhash1[i][j];
         }
+        myset.clear();
+        for(int i=1;i<=cntT;++i)
+        {
+            myset.insert(T[i]);
+//          cout << T[i] << ' ';
+        }
+//      cout << endl;
         for(int i=1;i<=N-P+1;++i)
             for(int j=1;j<=M-Q+1;++j)
-                myset.insert(strhash[i][j]);
-        
-        int ans=0;
-        for(int i=1;i<=cntT;++i)
-            if(myset.find(T[i])!=myset.end())
-                ++ans;
-        cout << "Case " << casei << ": " << ans << endl;
+            {
+                myset.erase(strhash[i][j]);
+//              cout << i << ' ' << j << ' ' << strhash[i][j] << endl;
+            }
+        cout << "Case " << casei << ": " << cntT-myset.size() << endl;
     }
     
     return 0;
