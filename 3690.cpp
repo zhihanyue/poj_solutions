@@ -1,7 +1,7 @@
 #include <iostream>
-#include <set>
+#include <tr1/unordered_set>
 using namespace std;
-
+using namespace tr1;
 #define K1 9973
 #define K2 15329
 
@@ -9,7 +9,7 @@ char str[1008][1008];
 unsigned long long T[108];
 unsigned long long strhash1[1008][1008],strhash[1008][1008];
 
-set<unsigned long long> myset;
+unordered_set<unsigned long long> myset(100000);
 
 char tempstr[1008][1008];
 int main()
