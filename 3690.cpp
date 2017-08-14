@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include <set>
 using namespace std;
 
@@ -19,7 +19,7 @@ int main()
     {
         ++casei;
         int N,M,cntT,P,Q;
-        cin >> N >> M >> cntT >> P >> Q;
+        scanf("%d%d%d%d%d",&N,&M,&cntT,&P,&Q);
         if(N==0 && M==0)
             break;
         unsigned long long t1=1,t2=1;
@@ -29,13 +29,15 @@ int main()
             t2*=K2;
         
         for(int i=1;i<=N;++i)
-            for(int j=1;j<=M;++j)
-                cin >> str[i][j];
+//          for(int j=1;j<=M;++j)
+                scanf("%s",&str[i][1]);
+        //      cin >> str[i][j];
         for(int k=1;k<=cntT;++k)
         {
             for(int i=1;i<=P;++i)
-                for(int j=1;j<=Q;++j)
-                    cin >> tempstr[i][j];
+//              for(int j=1;j<=Q;++j)
+                    scanf("%s",&tempstr[i][1]);
+//                  cin >> tempstr[i][j];
             T[k]=0;
             for(int i=P;i>=1;--i)
             {
@@ -76,7 +78,8 @@ int main()
                 myset.erase(strhash[i][j]);
 //              cout << i << ' ' << j << ' ' << strhash[i][j] << endl;
             }
-        cout << "Case " << casei << ": " << cntT-myset.size() << endl;
+        printf("Case %d: %d\n",casei,cntT-myset.size());
+//      cout << "Case " << casei << ": " << cntT-myset.size() << endl;
     }
     
     return 0;
