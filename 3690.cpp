@@ -30,13 +30,13 @@ int main()
         
         for(int i=1;i<=N;++i)
 //          for(int j=1;j<=M;++j)
-                gets(&str[i][1]);
+                scanf("%s",&str[i][1]);
         //      cin >> str[i][j];
         for(int k=1;k<=cntT;++k)
         {
             for(int i=1;i<=P;++i)
 //              for(int j=1;j<=Q;++j)
-                    gets(&tempstr[i][1]);
+                    scanf("%s",&tempstr[i][1]);
 //                  cin >> tempstr[i][j];
             T[k]=0;
             for(int i=P;i>=1;--i)
@@ -81,6 +81,5 @@ int main()
         printf("Case %d: %d\n",casei,cntT-myset.size());
 //      cout << "Case " << casei << ": " << cntT-myset.size() << endl;
     }
-    
     return 0;
 }
