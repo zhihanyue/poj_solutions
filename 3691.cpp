@@ -18,7 +18,7 @@ int getnum(char ch)
 }
 
 namespace ac {
-    int g[MAXM][5],f[MAXM];
+    int g[MAXM][5],f[MAXM],last[MAXM];
     bool OK[MAXM];
     int trie_len;
     
@@ -26,6 +26,7 @@ namespace ac {
     {
         memset(g[trie_len],-1,sizeof(g[trie_len]));
         OK[trie_len]=false;
+        last[trie_len]=-1;
         return trie_len++;
     }
     
@@ -53,6 +54,7 @@ namespace ac {
         f[0]=0;
         each_ch if(g[0][ch]!=-1) {
             f[g[0][ch]]=0;
+            last[g[0][ch]]=-1;
             q.push(g[0][ch]);
         } else g[0][ch]=0;
         while(!q.empty()) {
@@ -63,6 +65,7 @@ namespace ac {
                 int v=f[now];
                 while(g[v][ch]==-1) v=f[v];
                 f[next]=g[v][ch];
+                last[next]=OK[f[next]]?f[next]:last[f[next]];
                 q.push(next);
             }
         }
@@ -75,7 +78,7 @@ namespace ac {
         fromto(1,trie_len-1,j) dp[0][j]=INF;
         fromto(1,n,i) {
             fromto(0,trie_len-1,j) dp[i][j]=INF;
-            fromto(0,trie_len-1,j) each_ch if(!OK[g[j][ch]])
+            fromto(0,trie_len-1,j) each_ch if(!OK[g[j][ch]] && last[g[j][ch]]==-1)
                 dp[i][g[j][ch]]=min(dp[i][g[j][ch]],dp[i-1][j]+(ch!=getnum(S[i])));
         }
         int ans=INF;
