@@ -2,7 +2,7 @@
 #include <climits>
 #include <algorithm>
 #include <vector>
-#define B 500
+#define B 1048
 #define num(x) (((x)-1)/B+1)
 using namespace std;
 int A[100008],sorted_A[100008];
@@ -57,6 +57,5 @@ int main()
         }
         printf("%d\n",sorted_A[x_L]);
     }
-    system("pause");
     return 0;
 }
