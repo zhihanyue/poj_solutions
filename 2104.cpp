@@ -6,11 +6,10 @@
 #define num(x) (((x)-1)/B+1)
 using namespace std;
 int A[100008],sorted_A[100008];
-vector<int> bucket[400];
+vector<int> bucket[100008/B];
 
 int check(int x,int L,int R)
 {
-    //printf("check:[%d,%d]%d -> ",L,R,x);
     int k=0;
     for(;L<=R && (L-1)%B!=0;++L)
         if(A[L]<=x)
@@ -18,13 +17,11 @@ int check(int x,int L,int R)
     for(;L<=R && R%B!=0;--R)
         if(A[R]<=x)
             ++k;
-    //printf("..%d ",k);
     for(int i=L;i<=R;i+=B)
     {
-        k+=upper_bound(bucket[num(i)].begin(),bucket[num(i)].end(),x)-bucket[num(i)].begin();
-        //printf("..%d ",k);
+        int b=num(i);
+        k+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
     }
-    //printf("%d\n",k);
     return k;
 }
 
@@ -40,7 +37,7 @@ int main()
     sort(sorted_A+1,sorted_A+n+1);
     for(int i=1;i<=n;++i)
         bucket[num(i)].push_back(A[i]);
-    for(int i=1;i<=num(n);++i)
+    for(int i=1,size=num(n);i<=size;++i)
         sort(bucket[i].begin(),bucket[i].end());
     for(int i=1;i<=m;++i)
     {
@@ -53,7 +50,6 @@ int main()
             if(check(sorted_A[x_M],L,R)>=k)
                 x_R=x_M;
             else x_L=x_M+1;
-        //  printf("L=%d R=%d\n",x_L,x_R);
         }
         printf("%d\n",sorted_A[x_L]);
     }
