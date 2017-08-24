@@ -24,7 +24,7 @@ void solve()
         sort(bucket[i].begin(),bucket[i].end());
     for(int i=0;i<M;++i)
     {
-        int l=I[i],r=J[i]+1,k=K[i];
+        int l=I[i]-1,r=J[i],k=K[i];
         int lb=-1,ub=N-1;
         while(ub-lb>1)
         {
@@ -54,7 +54,7 @@ void solve()
 int main()
 {
     scanf("%d%d",&N,&M);
-    for(int i=1;i<=N;++i)
+    for(int i=0;i<N;++i)
         scanf("%d",&A[i]);
     for(int i=0;i<M;++i)
         scanf("%d%d%d",&I[i],&J[i],&K[i]);
