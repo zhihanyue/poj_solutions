@@ -8,23 +8,6 @@ using namespace std;
 int A[100008],sorted_A[100008];
 vector<int> bucket[100008/B];
 
-int check(int x,int L,int R)
-{
-    int k=0;
-    for(;L<=R && (L-1)%B!=0;++L)
-        if(A[L]<=x)
-            ++k;
-    for(;L<=R && R%B!=0;--R)
-        if(A[R]<=x)
-            ++k;
-    for(int i=L;i<=R;i+=B)
-    {
-        int b=num(i);
-        k+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
-    }
-    return k;
-}
-
 int main()
 {
     int n,m;
@@ -47,7 +30,21 @@ int main()
         while(x_L<x_R)
         {
             int x_M=x_L+(x_R-x_L)/2;
-            if(check(sorted_A[x_M],L,R)>=k)
+            
+            int ans=0,x=sorted_A[x_M];
+            for(;L<=R && (L-1)%B!=0;++L)
+                if(A[L]<=x)
+                    ++ans;
+            for(;L<=R && R%B!=0;--R)
+                if(A[R]<=x)
+                    ++ans;
+            for(int i=L;i<=R;i+=B)
+            {
+                int b=num(i);
+                ans+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
+            }
+            
+            if(ans>=k)
                 x_R=x_M;
             else x_L=x_M+1;
         }
