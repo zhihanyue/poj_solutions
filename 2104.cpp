@@ -1,63 +1,57 @@
 #include <cstdio>
-#include <cstdlib>
-#include <algorithm>
-#include <cstring>
 #include <climits>
+#include <algorithm>
 #include <vector>
 #define B 1000
+#define num(x) (((x)-1)/B+1)
 using namespace std;
-int N,M;
-int A[100008];
-int I[5008],J[5008],K[5008];
-int nums[100008];
+int A[100008],sorted_A[100008];
 vector<int> bucket[100008/B];
 
-void solve()
+int check(int x,int L,int R)
 {
-    for(int i=0;i<N;++i)
+    int k=0;
+    for(;L<=R && (L-1)%B!=0;++L)
+        if(A[L]<=x)
+            ++k;
+    for(;L<=R && R%B!=0;--R)
+        if(A[R]<=x)
+            ++k;
+    for(int i=L;i<=R;i+=B)
     {
-        bucket[i/B].push_back(A[i]);
-        nums[i]=A[i];
+        int b=num(i);
+        k+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
     }
-    sort(nums,nums+N);
-    for(int i=0;i<N/B;++i)
-        sort(bucket[i].begin(),bucket[i].end());
-    for(int i=0;i<M;++i)
-    {
-        int l=I[i]-1,r=J[i],k=K[i];
-        int lb=-1,ub=N-1;
-        while(ub-lb>1)
-        {
-            int md=(lb+ub)/2;
-            int x=nums[md];
-            int tl=l,tr=r,c=0;
-            while(tl<tr && tl%B!=0)
-                if(A[tl++]<=x)
-                    c++;
-            while(tl<tr && tr%B!=0)
-                if(A[--tr]<=x)
-                    c++;
-            while(tl<tr)
-            {
-                int b=tl/B;
-                c+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
-                tl+=B;
-            }
-            if(c>=k)
-                ub=md;
-            else lb=md;
-        }
-        printf("%d\n",nums[ub]);
-    }
+    return k;
 }
 
 int main()
 {
-    scanf("%d%d",&N,&M);
-    for(int i=0;i<N;++i)
+    int n,m;
+    scanf("%d%d",&n,&m);
+    for(int i=1;i<=n;++i)
+    {
         scanf("%d",&A[i]);
-    for(int i=0;i<M;++i)
-        scanf("%d%d%d",&I[i],&J[i],&K[i]);
-    solve();
+        sorted_A[i]=A[i];
+    }
+    sort(sorted_A+1,sorted_A+n+1);
+    for(int i=1;i<=n;++i)
+        bucket[num(i)].push_back(A[i]);
+    for(int i=1,size=num(n);i<=size;++i)
+        sort(bucket[i].begin(),bucket[i].end());
+    for(int i=1;i<=m;++i)
+    {
+        int L,R,k;
+        scanf("%d%d%d",&L,&R,&k);
+        int x_L=1,x_R=n;
+        while(x_L<x_R)
+        {
+            int x_M=x_L+(x_R-x_L)/2;
+            if(check(sorted_A[x_M],L,R)>=k)
+                x_R=x_M;
+            else x_L=x_M+1;
+        }
+        printf("%d\n",sorted_A[x_L]);
+    }
     return 0;
 }
