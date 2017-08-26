@@ -31,14 +31,14 @@ int main()
         {
             int x_M=x_L+(x_R-x_L)/2;
             
-            int ans=0,x=sorted_A[x_M];
-            for(;L<=R && (L-1)%B!=0;++L)
-                if(A[L]<=x)
+            int ans=0,x=sorted_A[x_M],tL=L,tR=R;
+            for(;tL<=tR && (tL-1)%B!=0;++tL)
+                if(A[tL]<=x)
                     ++ans;
-            for(;L<=R && R%B!=0;--R)
-                if(A[R]<=x)
+            for(;tL<=tR && tR%B!=0;--tR)
+                if(A[tR]<=x)
                     ++ans;
-            for(int i=L;i<=R;i+=B)
+            for(int i=tL;i<=tR;i+=B)
             {
                 int b=num(i);
                 ans+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
