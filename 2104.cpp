@@ -38,9 +38,9 @@ int main()
             for(;tL<=tR && tR%B!=0;--tR)
                 if(A[tR]<=x)
                     ++ans;
-            for(int i=tL;i<=tR;i+=B)
+            for(;tL<=tR;tL+=B)
             {
-                int b=num(i);
+                int b=num(tL);
                 ans+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
             }
             
