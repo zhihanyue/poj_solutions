@@ -31,24 +31,24 @@ int main()
         {
             int x_M=x_L+(x_R-x_L)/2;
             
-            int ans=0,x=sorted_A[x_M],tL=L,tR=R;
+            int ans=1,x=sorted_A[x_M],tL=L,tR=R;
             for(;tL<=tR && (tL-1)%B!=0;++tL)
-                if(A[tL]<=x)
+                if(A[tL]<x)
                     ++ans;
             for(;tL<=tR && tR%B!=0;--tR)
-                if(A[tR]<=x)
+                if(A[tR]<x)
                     ++ans;
-            for(int j=tL;j<=tR;j+=B)
+            for(;tL<=tR;tL+=B)
             {
-                int b=num(j);
-                ans+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
+                int b=num(tL);
+                ans+=lower_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
             }
             
-            if(ans>=k)
-                x_R=x_M;
-            else x_L=x_M+1;
+            if(ans<=k)
+                x_L=x_M+1;
+            else x_R=x_M;
         }
-        printf("%d\n",sorted_A[x_L]);
+        printf("%d\n",sorted_A[x_L-1]);
     }
     return 0;
 }
