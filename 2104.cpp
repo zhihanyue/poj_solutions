@@ -1,54 +1,63 @@
 #include <cstdio>
-#include <climits>
+#include <cstdlib>
 #include <algorithm>
+#include <cstring>
+#include <climits>
 #include <vector>
 #define B 1000
-#define num(x) (((x)-1)/B+1)
 using namespace std;
-int A[100008],sorted_A[100008];
+int N,M;
+int A[100008];
+int I[5008],J[5008],K[5008];
+int nums[100008];
 vector<int> bucket[100008/B];
+
+void solve()
+{
+    for(int i=0;i<N;++i)
+    {
+        bucket[i/B].push_back(A[i]);
+        nums[i]=A[i];
+    }
+    sort(nums,nums+N);
+    for(int i=0;i<N/B;++i)
+        sort(bucket[i].begin(),bucket[i].end());
+    for(int i=0;i<M;++i)
+    {
+        int l=I[i]-1,r=J[i],k=K[i];
+        int lb=-1,ub=N-1;
+        while(ub-lb>1)
+        {
+            int md=(lb+ub)/2;
+            int x=nums[md];
+            int tl=l,tr=r,c=0;
+            while(tl<tr && tl%B!=0)
+                if(A[tl++]<=x)
+                    c++;
+            while(tl<tr && tr%B!=0)
+                if(A[--tr]<=x)
+                    c++;
+            while(tl<tr)
+            {
+                int b=tl/B;
+                c+=upper_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
+                tl+=B;
+            }
+            if(c>=k)
+                ub=md;
+            else lb=md;
+        }
+        printf("%d\n",nums[ub]);
+    }
+}
 
 int main()
 {
-    int n,m;
-    scanf("%d%d",&n,&m);
-    for(int i=1;i<=n;++i)
-    {
+    scanf("%d%d",&N,&M);
+    for(int i=0;i<N;++i)
         scanf("%d",&A[i]);
-        sorted_A[i]=A[i];
-    }
-    sort(sorted_A+1,sorted_A+n+1);
-    for(int i=1;i<=n;++i)
-        bucket[num(i)].push_back(A[i]);
-    for(int i=1,size=num(n);i<=size;++i)
-        sort(bucket[i].begin(),bucket[i].end());
-    for(int i=1;i<=m;++i)
-    {
-        int L,R,k;
-        scanf("%d%d%d",&L,&R,&k);
-        int x_L=1,x_R=n;
-        while(x_L<x_R)
-        {
-            int x_M=x_L+(x_R-x_L)/2;
-            
-            int ans=0,x=sorted_A[x_M],tL=L,tR=R;
-            for(;tL<=tR && (tL-1)%B!=0;++tL)
-                if(A[tL]<x)
-                    ++ans;
-            for(;tL<=tR && tR%B!=0;--tR)
-                if(A[tR]<x)
-                    ++ans;
-            for(;tL<=tR;tL+=B)
-            {
-                int b=num(tL);
-                ans+=lower_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
-            }
-            
-            if(ans<k)
-                x_L=x_M+1;
-            else x_R=x_M;
-        }
-        printf("%d\n",sorted_A[x_L-1]);
-    }
+    for(int i=0;i<M;++i)
+        scanf("%d%d%d",&I[i],&J[i],&K[i]);
+    solve();
     return 0;
 }
