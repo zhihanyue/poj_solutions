@@ -6,8 +6,7 @@
 #define num(x) (((x)-1)/B+1)
 using namespace std;
 int A[100008],sorted_A[100008];
-vector<int> bucket[100008/B];
-
+int bucket[100008/B][B+8],bucket_len[100008/B];
 int main()
 {
     //freopen("data.in","r",stdin);
@@ -21,9 +20,11 @@ int main()
     }
     sort(sorted_A+1,sorted_A+n+1);
     for(int i=1;i<=n;++i)
-        bucket[num(i)].push_back(A[i]);
+    {
+        bucket[num(i)][bucket_len[num(i)]++]=A[i];
+    }
     for(int i=1,size=num(n);i<=size;++i)
-        sort(bucket[i].begin(),bucket[i].end());
+        sort(bucket[i],bucket[i]+bucket_len[i]);
     for(int i=1;i<=m;++i)
     {
         int L,R,k;
@@ -42,7 +43,7 @@ int main()
             for(;tL<=tR;tL+=B)
             {
                 int b=num(tL);
-                ans+=lower_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
+                ans+=lower_bound(bucket[b],bucket[b]+bucket_len[b],x)-bucket[b];
             }
             if(ans<k)
                 x_L=x_M+1;
