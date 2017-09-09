@@ -32,7 +32,6 @@ int main()
         while(x_L<x_R)
         {
             int x_M=x_L+(x_R-x_L)/2;
-            
             int ans=0,x=sorted_A[x_M],tL=L,tR=R;
             for(;tL<=tR && (tL-1)%B!=0;++tL)
                 if(A[tL]<x)
@@ -45,7 +44,7 @@ int main()
                 int b=num(tL);
                 ans+=lower_bound(bucket[b].begin(),bucket[b].end(),x)-bucket[b].begin();
             }
-            if(ans+1<=k)
+            if(ans<k)
                 x_L=x_M+1;
             else x_R=x_M;
         }
