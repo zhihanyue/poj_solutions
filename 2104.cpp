@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 #define B 1000
-#define num(x) (((x)-1)/B+1)
+#define num(x) (((x)-1)/B)
 using namespace std;
 int A[100008],sorted_A[100008];
 int bucket[100008/B][B+8],bucket_len[100008/B];
@@ -20,9 +20,7 @@ int main()
     }
     sort(sorted_A+1,sorted_A+n+1);
     for(int i=1;i<=n;++i)
-    {
         bucket[num(i)][bucket_len[num(i)]++]=A[i];
-    }
     for(int i=1,size=num(n);i<=size;++i)
         sort(bucket[i],bucket[i]+bucket_len[i]);
     for(int i=1;i<=m;++i)
