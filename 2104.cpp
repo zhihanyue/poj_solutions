@@ -21,7 +21,7 @@ int main()
     sort(sorted_A+1,sorted_A+n+1);
     for(int i=1;i<=n;++i)
         bucket[num(i)][bucket_len[num(i)]++]=A[i];
-    for(int i=1,size=num(n);i<=size;++i)
+    for(int i=0,size=num(n);i<=size;++i)
         sort(bucket[i],bucket[i]+bucket_len[i]);
     for(int i=1;i<=m;++i)
     {
