@@ -1,53 +1,70 @@
 #include <cstdio>
-#include <climits>
-#include <algorithm>
 #include <vector>
-#define B 1000
-#define num(x) (((x)-1)/B)
+#include <algorithm>
+#define N_MAX 100008
 using namespace std;
-int A[100008],sorted_A[100008];
-int bucket[100008/B][B+8],bucket_len[100008/B];
+int A[N_MAX],n;
+int num[N_MAX];
+vector<int> xdtree[N_MAX*4];
+
+void init(int o,int L,int r)
+{
+    if(L+1==r)
+    {
+        xdtree[o].push_back(A[L]);
+        return;
+    }
+    int M=L+(r-L)/2;
+    init(o*2,L,M);
+    init(o*2+1,M,r);
+    xdtree[o].resize(xdtree[o*2].size()+xdtree[o*2+1].size());
+    merge(xdtree[o*2].begin(),xdtree[o*2].end(),xdtree[o*2+1].begin(),xdtree[o*2+1].end(),xdtree[o].begin());
+}
+
+int qu_ans,qu_L,qu_r,qu_x;
+void query(int o,int L,int r)
+{
+    if(r<=qu_L || L>=qu_r)
+        return;
+    if(qu_L<=L && r<=qu_r)
+    {
+        qu_ans+=upper_bound(xdtree[o].begin(),xdtree[o].end(),qu_x)-xdtree[o].begin();
+        return;
+    }
+    int M=L+(r-L)/2;
+    query(o*2,L,M);
+    query(o*2+1,M,r);
+}
+
 int main()
 {
-    //freopen("data.in","r",stdin);
-    //freopen("WA.out","w",stdout);
-    int n,m;
-    scanf("%d%d",&n,&m);
+    int q_M;
+    scanf("%d%d",&n,&q_M);
     for(int i=1;i<=n;++i)
     {
         scanf("%d",&A[i]);
-        sorted_A[i]=A[i];
+        num[i]=A[i];
     }
-    sort(sorted_A+1,sorted_A+n+1);
-    for(int i=1;i<=n;++i)
-        bucket[num(i)][bucket_len[num(i)]++]=A[i];
-    for(int i=0,size=num(n);i<=size;++i)
-        sort(bucket[i],bucket[i]+bucket_len[i]);
-    for(int i=1;i<=m;++i)
+    sort(num+1,num+n+1);
+    init(1,1,n+1);
+    while(q_M--)
     {
         int L,R,k;
         scanf("%d%d%d",&L,&R,&k);
-        int x_L=1,x_R=n+1;
-        while(x_L<x_R)
+        int bL=1,bR=n+1;
+        while(bL<bR)
         {
-            int x_M=x_L+(x_R-x_L)/2;
-            int ans=0,x=sorted_A[x_M],tL=L,tR=R;
-            for(;tL<=tR && (tL-1)%B!=0;++tL)
-                if(A[tL]<x)
-                    ++ans;
-            for(;tL<=tR && tR%B!=0;--tR)
-                if(A[tR]<x)
-                    ++ans;
-            for(;tL<=tR;tL+=B)
-            {
-                int b=num(tL);
-                ans+=lower_bound(bucket[b],bucket[b]+bucket_len[b],x)-bucket[b];
-            }
-            if(ans<k)
-                x_L=x_M+1;
-            else x_R=x_M;
+            int bM=bL+(bR-bL)/2;
+            qu_ans=0;
+            qu_L=L;
+            qu_r=R+1;
+            qu_x=num[bM];
+            query(1,1,n+1);
+            if(qu_ans>=k)
+                bR=bM;
+            else bL=bM+1;
         }
-        printf("%d\n",sorted_A[x_L-1]);
+        printf("%d\n",num[bL]);
     }
     return 0;
 }
