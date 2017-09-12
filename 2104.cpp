@@ -1,77 +1,66 @@
 #include <cstdio>
-#include <vector>
 #include <algorithm>
-#define N_MAX 100008
 using namespace std;
-int A[N_MAX],n;
-int num[N_MAX];
-vector<int> xdtree[N_MAX*4];
+#define MAXN 100008
+#define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
+#define watch(a,n) for(int __i=0;__i<(n);++__i) printf("%d ",a[__i]);printf("\n");
+int A[MAXN],B[MAXN];
+struct Node {
+    int cnt;
+    Node *left,*right;
+    Node(int _cnt,Node *_left,Node *_right):cnt(_cnt),left(_left),right(_right){}
+};
 
-void init(int o,int L,int r)
+void push_down(Node *o)
 {
-    if(L+1==r)
-    {
-        xdtree[o].push_back(A[L]);
-        return;
-    }
-    int M=L+(r-L)/2;
-    init(o*2,L,M);
-    init(o*2+1,M,r);
-    xdtree[o].resize(xdtree[o*2].size()+xdtree[o*2+1].size());//!!!
-    merge(xdtree[o*2].begin(),xdtree[o*2].end(),xdtree[o*2+1].begin(),xdtree[o*2+1].end(),xdtree[o].begin());
+    //Equivalent transformation
+    if(o->left==NULL) o->left=new Node(0,NULL,NULL);
+    if(o->right==NULL) o->right=new Node(0,NULL,NULL);
+    //Non-equivalent transformation(null)
+    
 }
 
-int qu_low,qu_upp,qu_L,qu_r,qu_x;
-void query(int o,int L,int r)
+void push_up(Node *o)
 {
-    if(r<=qu_L || L>=qu_r)
-        return;
-    if(qu_L<=L && r<=qu_r)
-    {
-        qu_low+=lower_bound(xdtree[o].begin(),xdtree[o].end(),qu_x)-xdtree[o].begin();
-        qu_upp+=upper_bound(xdtree[o].begin(),xdtree[o].end(),qu_x)-xdtree[o].begin();
-        return;
-    }
-    int M=L+(r-L)/2;
-    query(o*2,L,M);
-    query(o*2+1,M,r);
+    o->cnt=o->left->cnt+o->right->cnt;
 }
 
+Node *newver(Node *o,int L,int r,int newval)
+{
+    if(newval<L || newval>=r) return o;
+    if(L+1==r){return new Node(o->cnt+1,NULL,NULL);}
+    int M=L+(r-L)/2;
+    push_down(o);
+    Node *newnode=new Node(0,newver(o->left,L,M,newval),newver(o->right,M,r,newval));
+    push_up(newnode);
+    return newnode;
+}
+
+int subkth(Node *o1,Node *o2,int L,int r,int k)//kth in (o1-o2)tree,must have kth!
+{
+    if(L+1==r) return L;
+    int leftcnt=o1->left->cnt-o2->left->cnt;
+    push_down(o1);push_down(o2);
+    int M=L+(r-L)/2;
+    if(k<=leftcnt)
+        return subkth(o1->left,o2->left,L,M,k);
+    else return subkth(o1->right,o2->right,M,r,k-leftcnt);
+}
+
+Node *Version[MAXN];
 int main()
 {
-    int q_M;
-    scanf("%d%d",&n,&q_M);
-    for(int i=1;i<=n;++i)
-    {
-        scanf("%d",&A[i]);
-        num[i]=A[i];
-    }
-    sort(num+1,num+n+1);
-    init(1,1,n+1);
-    while(q_M--)
-    {
+    int n,m;
+    scanf("%d%d",&n,&m);
+    fromto(1,n,i) {scanf("%d",&A[i]);B[i]=A[i];}
+    sort(B+1,B+n+1);
+    fromto(1,n,i) A[i]=lower_bound(B+1,B+n+1,A[i])-B;
+    Version[0]=new Node(0,NULL,NULL);
+    fromto(1,n,i) Version[i]=newver(Version[i-1],1,n+1,A[i]);
+    while(m--) {
         int L,R,k;
         scanf("%d%d%d",&L,&R,&k);
-        int bL=1,bR=n+1;
-        while(bL<bR)
-        {
-            int bM=bL+(bR-bL)/2;
-            qu_low=1;
-            qu_upp=1;
-            qu_L=L;
-            qu_r=R+1;
-            qu_x=num[bM];
-            query(1,1,n+1);
-            if(k>=qu_low && k<qu_upp)
-            {
-                bL=bM;
-                break;
-            }
-            else if(qu_low>k)
-                bR=bM-1;
-            else bL=bM+1;
-        }
-        printf("%d\n",num[bL]);
+        printf("%d\n",(k>R-L+1)?-1:B[subkth(Version[R],Version[L-1],1,n+1,k)]);
     }
     return 0;
 }
