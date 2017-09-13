@@ -10,7 +10,7 @@ struct Node {
     Node *left,*right;
     Node(){}
     Node(int _cnt,Node *_left,Node *_right):cnt(_cnt),left(_left),right(_right){}
-} nodes[10*MAXN];
+} nodes[100*MAXN];
 int nodes_k=0;
 Node *new_Node(int _cnt,Node *_left,Node *_right)
 {
