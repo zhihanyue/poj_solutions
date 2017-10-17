@@ -1,4 +1,5 @@
-#include <iostream>
+#include <cstdio>
+#include <cstdlib>
 using namespace std;
 int A[100008],N;
 long long xdtree[400008],addv[400008];
@@ -69,18 +70,18 @@ void update(int o,int L,int r)//注意初始化 up_！！
 int main()
 {
     int Q;
-    cin >> N >> Q;
+    scanf("%d%d",&N,&Q);
     for(int i=1;i<=N;++i)
-        cin >> A[i];
+        scanf("%d",&A[i]);
     init(1,1,N+1);
     for(int i=1;i<=Q;++i)
     {
         char ch;
-        long long a,b,x;
-        cin >> ch >> a >> b;
+        int a,b,x;
+        scanf(" %c %d%d",&ch,&a,&b);
         if(ch=='C')
         {
-            cin >> x;
+            scanf("%d",&x);
             up_L=a;
             up_r=b+1;
             up_add=x;
@@ -92,7 +93,7 @@ int main()
             qu_r=b+1;
             qu_ans=0;
             query(1,1,N+1);
-            cout << qu_ans << endl;
+            printf("%I64d\n",qu_ans);
         }
     }
     return 0;
