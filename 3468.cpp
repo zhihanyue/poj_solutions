@@ -2,7 +2,7 @@
 #include <cstdlib>
 using namespace std;
 int A[100008],N;
-long long xdtree[200008],addv[200008];
+long long xdtree[400008],addv[400008];
 
 void init(int o,int L,int r)
 {
