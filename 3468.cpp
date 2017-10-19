@@ -3,22 +3,22 @@
 using namespace std;
 int A[100008],N;
 
+template <typename T,int max>
 struct BIT
 {
-    long long bit[100008],len;
-    void init(int A[],int _len)
+    T bit[max],len,S[max];
+    void init(int arr[],int _len)
     {
         len=_len;
-        int S[100008];
         S[0]=0;
         for(int i=1;i<=len;++i)
-            S[i]=S[i-1]+A[i];
+            S[i]=S[i-1]+arr[i];
         for(int i=1;i<=len;++i)
             bit[i]=S[i]-S[i-lowbit(i)];
     }
-    long long sum(int i)
+    T sum(int i)
     {
-        long long result=0;
+        T result=0;
         for(;i>0;i-=lowbit(i))
             result+=bit[i];
         return result;
@@ -28,7 +28,8 @@ struct BIT
         for(;i<=len;i+=lowbit(i))
             bit[i]+=v;
     }
-}BIT1,BIT2;
+};
+BIT<long long,100008> BIT1,BIT2;
 
 int main()
 {
