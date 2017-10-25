@@ -27,6 +27,7 @@ int main()
     scanf("%d",&n);
     fromto(1,n,i) scanf("%lf%lf",&(P[i].first),&(P[i].second));
     sort(P+1,P+n+1);
+    n=unique(P+1,P+n+1)-P-1;
     int k=0;
     for(int i=1;i<=n;++i) {
         for(;k>=2 && cross(TB[k]-TB[k-1],P[i]-TB[k])<=0;--k);
@@ -36,13 +37,14 @@ int main()
         for(;k>=t+1 && cross(TB[k]-TB[k-1],P[i]-TB[k])<=0;--k);
         TB[++k]=P[i];
     }
-    //凸包免费赠送TB[k]这个哨兵哦~~ 
     --k;
+    //凸包免费赠送TB[k+1]这个哨兵哦~~ 
+    //fromto(1,k,i) printf("(%lf,%lf)\n",TB[i].first,TB[i].second);
     double ans=0.0;
     for(int i=1,j=2;i<=k;++i) {
-        if(area2(TB[i],TB[i+1],TB[j+1])>area2(TB[i],TB[i+1],TB[j])) j=j%k+1;
+        while(area2(TB[i],TB[i+1],TB[j+1])>area2(TB[i],TB[i+1],TB[j])) j=j%k+1;
         ans=max(ans,max(len2(TB[j]-TB[i]),len2(TB[j+1]-TB[i+1])));
     }
-    printf("%.0lf\n",round(ans));
+    printf("%.0lf\n",ans);
     return 0;
 }
