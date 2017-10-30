@@ -56,7 +56,7 @@ void update(int o,int L,int r) {
     update(o * 2 + 1, M, r);
 }
 
-int L[MAXN],R[MAXN];
+int L[MAXN],r[MAXN];
 
 void solve() {
     hb.clear();
@@ -65,9 +65,10 @@ void solve() {
     int n;
     scanf("%d",&n);
     fromto(1,n,i) {
-        scanf("%d%d",&L[i],&R[i]);
+        scanf("%d%d",&L[i],&r[i]);
+        ++r[i];
         vec.push_back(L[i]);
-        vec.push_back(R[i]);
+        vec.push_back(r[i]);
     }
     sort(vec.begin(), vec.end());
     vec.erase(unique(vec.begin(), vec.end()), vec.end());
@@ -78,15 +79,15 @@ void solve() {
     }
     fromto(1,n,i) {
         L[i] = ls[L[i]];
-        R[i] = ls[R[i]];
+        r[i] = ls[r[i]];
         //printf("[%d,%d]\n",L[i],R[i]);
     }
-    int xd_r = vec.size() + 1;
+    int xd_r = vec.size();
     //watch(xd_r,"%d");
     memset(xdtree,0,sizeof(xdtree));
     fromto(1,n,i) {
         up_L = L[i];
-        up_r = R[i] + 1;
+        up_r = r[i];
         //printf("up_L=%d\tup_r=%d\n",up_L,up_r);
         up_set = i;
         update(1, 1, xd_r);
