@@ -28,13 +28,13 @@ inline void push_down(int o,int L,int r) {
     }
 }
 
-set<int> hb;
+vector<int> hb;
 void query(int o,int L,int r) {
     if(L>=r) return;
     //printf("[%d,%d)\n",L,r);
     if(xdtree[o] != 0) {
         //printf("hb:%d\n",xdtree[o]);
-        hb.insert(xdtree[o]);
+        hb.push_back(xdtree[o]);
         return;
     }
     if(L+1 == r) return;
@@ -96,11 +96,13 @@ void solve() {
     }
     //printf("%d!!!\n",xd_r);
     query(1, 1, xd_r);
-    printf("%d\n", hb.size());
+    sort(hb.begin(),hb.end());
+    printf("%d\n", unique(hb.begin(),hb.end()) - hb.begin());
 }
 
 int main()
 {
+    //freopen("G.1.dat","r",stdin);
     int case_cnt;
     scanf("%d",&case_cnt);
     while(case_cnt--) solve();
