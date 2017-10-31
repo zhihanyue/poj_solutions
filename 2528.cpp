@@ -31,11 +31,13 @@ inline void push_down(int o,int L,int r) {
 set<int> hb;
 void query(int o,int L,int r) {
     if(L>=r) return;
+    //printf("[%d,%d)\n",L,r);
     if(xdtree[o] != 0) {
         //printf("hb:%d\n",xdtree[o]);
         hb.insert(xdtree[o]);
         return;
     }
+    if(L+1 == r) return;
     push_down(o, L, r);
     int M = L + (r - L) / 2;
     query(o * 2, L, M);
@@ -92,6 +94,7 @@ void solve() {
         up_set = i;
         update(1, 1, xd_r);
     }
+    //printf("%d!!!\n",xd_r);
     query(1, 1, xd_r);
     printf("%d\n", hb.size());
 }
