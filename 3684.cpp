@@ -8,10 +8,10 @@ double y[108];
 
 double f(int T)
 {
-    if(T<=0)
+    if(T<0)
         return H;
-    double t=sqrt(2*H/g);
-    int n=T/t;
+    double t=sqrt(2.0*H/g);
+    int n=(int)(T/t);
     double k=T-n*t,y;
     if(n%2==0)
         return H-k*k*g/2;
