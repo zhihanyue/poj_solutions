@@ -15,7 +15,7 @@ double f(int T)
     double k=T-n*t,y;
     if(n%2==0)
         return H-k*k*g/2;
-    else return 2*H-k*k*g/2;
+    else return H-(k-t)*(k-t)*g/2;
 }
 
 
