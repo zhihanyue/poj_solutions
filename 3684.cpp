@@ -8,7 +8,7 @@ double y[108];
 
 double f(int T)
 {
-    if(T<0)
+    if(T<=0)
         return H;
     double t=sqrt(2.0*H/g);
     int n=(int)(T/t);
