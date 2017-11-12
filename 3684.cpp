@@ -3,8 +3,7 @@
 #include <cmath>
 #define g 10.0
 using namespace std;
-int N,R;
-double H;
+int N,H,R;
 double y[108];
 
 double f(int T)
@@ -26,17 +25,14 @@ int main()
     while(casecnt--)
     {
         int T;
-        scanf("%d%lf%d%d",&N,&H,&R,&T);
+        scanf("%d%d%d%d",&N,&H,&R,&T);
         for(int i=0;i<N;++i)
-        {
             y[i]=f(T-i);
-            H+=2*R/100.0;
-        }
         sort(y,y+N);
         for(int i=0;i<N;++i)
             if(i==N-1)
-                printf("%.2lf\n",y[i]);
-            else printf("%.2lf ",y[i]);
+                printf("%.2lf\n",y[i]+2*R*i/100.0);
+            else printf("%.2lf ",y[i]+2*R*i/100.0);
     }
     //system("pause");
     return 0;
