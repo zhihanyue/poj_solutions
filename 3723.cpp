@@ -19,7 +19,7 @@ int main()
 {
     int datacnt;
     cin >> datacnt;
-    for(;datacnt>=1;--datacnt)
+    while(datacnt--)
     {
         int N,M,R;
         cin >> N >> M >> R;
@@ -32,7 +32,7 @@ int main()
             E[i]=(eage){x,y+N,-d};
         }
         sort(E+1,E+R+1,cmp);
-        long long ans=0;
+        int ans=0;
         for(int i=1;i<=R;++i)
         {
             int T_f=find(E[i].from),T_t=find(E[i].to);
