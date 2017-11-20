@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 #include <algorithm>
 using namespace std;
 
@@ -18,17 +18,17 @@ bool cmp(const eage &a,const eage &b)
 int main()
 {
     int datacnt;
-    cin >> datacnt;
+    scanf("%d",&datacnt);
     while(datacnt--)
     {
         int N,M,R;
-        cin >> N >> M >> R;
+        scanf("%d%d%d",&N,&M,&R);
         for(int i=0;i<=N+M;++i)
             p[i]=i;
         for(int i=1;i<=R;++i)
         {
             int x,y,d;
-            cin >> x >> y >> d;
+            scanf("%d%d%d",&x,&y,&d);
             E[i].from=x;
             E[i].to=y+N;
             E[i].d=-d;
@@ -44,7 +44,7 @@ int main()
                 ans+=E[i].d;
             }
         }
-        cout << (N+M)*10000+ans << endl;
+        printf("%d\n",(N+M)*10000+ans);
     }
     return 0;
 }
