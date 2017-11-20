@@ -29,7 +29,9 @@ int main()
         {
             int x,y,d;
             cin >> x >> y >> d;
-            E[i]=(eage){x,y+N,-d};
+            E[i].from=x;
+            E[i].to=y+N;
+            E[i].d=-d;
         }
         sort(E+1,E+R+1,cmp);
         int ans=0;
