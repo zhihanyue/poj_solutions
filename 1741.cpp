@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <vector>
 #include <climits>
+#include <cstring>
 #include <algorithm>
 using namespace std;
 #define fromto(from,to,i) for(int (i)=(from);(i)<=(to);++(i))
