@@ -15,16 +15,8 @@ int main()
         {
             int a;
             cin >> a;
-            if(a<=len/2)
-            {
-                ans1=max(ans1,a);
-                ans2=max(ans2,len-a);
-            }
-            else
-            {
-                ans1=max(ans1,len-a);
-                ans2=max(ans2,a);
-            }
+            ans1=max(ans1,min(a,len-a));
+            ans2=max(ans2,max(a,len-a));
         }
         cout << ans1 << ' ' << ans2 << endl;
     }
