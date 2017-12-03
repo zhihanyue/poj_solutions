@@ -1,25 +1,26 @@
-#include <iostream>
-#include <algorithm>
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<cstdio>
+
 using namespace std;
+
 
 int main()
 {
-    int M;
-    cin >> M;
-    for(int k=1;k<=M;++k)
+    int n,l,cs,mx,mi,pos;
+    cin>>cs;
+    while(cs--)
     {
-        int len,N;
-        cin >> len >> N;
-        int ans1=0,ans2=0;
-        for(int i=1;i<=N;++i)
+        mx=0,mi=0;
+        cin>>l>>n;
+        for(int i=0;i<n;i++)
         {
-            int a;
-            cin >> a;
-            ans1=max(ans1,min(a,len-a));
-            ans2=max(ans2,max(a,len-a));
+            cin>>pos;
+            mx=max(mx,max(pos,l-pos));
+            mi=max(mi,min(pos,l-pos));
         }
-        cout << ans1 << ' ' << ans2 << endl;
+        cout<<mi<<" "<<mx<<endl;
     }
-    //system("pause");
     return 0;
 }
